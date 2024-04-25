@@ -1,0 +1,120 @@
+---
+type: custom:history-explorer-card
+
+# Required, but can be empty for dynamic graphs to be configured by users.
+graphs:
+  ## TODO
+  entities:
+    - {}
+
+
+# Optional: Dictionary of colour overrides for specified sensor states
+stateColors:
+  # Required: Name of the sensor and state, eg "on" state for "door" sensor
+  # Value is the colour that the specified state should have
+  door.on: blue
+
+
+# Optional: Overrides options of entities globlly, for dynamically added entities by the user
+entityOptions:
+  ## TODO
+
+# Optional: TODO
+labelAreaWidth: 65
+
+# Optional: TODO
+labelsVisible: True
+
+# Optional: TODO
+legendVisible: True
+
+# Optional: TODO
+cursor:
+  # Optional: TODO
+  mode: auto
+  # Optional: TODO
+  types: ['timeline']
+
+# Optional: TODO
+tooltip:
+  # Optional: TODO
+  showColorsLine: True
+  # Optional: TODO
+  showColorsTimeline: True
+  # Optional: TODO
+  size: auto
+  # Optional: TODO
+  showDuration: False
+  # Optional: TODO
+  showLabel: True
+  # Optional: TODO
+  stateTextMode: auto
+
+# Optional: TODO
+stateColorSeed: 137
+
+# Optional: TODO
+stateTextMode: auto
+
+# Optional: TODO
+decimation: undefined
+
+# Optional: TODO
+rounding: 2
+
+# Optional: TODO
+lineMode: undefined
+
+# Optional: TODO
+lineWidth: 2.0
+
+# Optional: TODO
+showUnavailable: False
+
+# Optional: TODO
+showCurrentValues: True # TODO: I want this
+
+axisAddMarginMin: False
+axisAddMarginMax: False
+recordedEntitiesOnly: False # TODO: I want this
+filterEntities: undefined
+combineSameUnits: False
+defaultTimeRange: '24'
+defaultTimeOffset: undefined
+timeTicks:
+  density: 'high'
+  densityOverride: undefined
+  dateFormat: 'short'
+lineGraphHeight: 250
+barGraphHeight: 150
+timelineBarHeight: 24
+timelineBarSpacing: 40
+refresh:
+  automatic: False
+  interval: undefined
+csv:
+  separator: undefined
+  timeFormat: undefined
+  exportAttributes: undefined
+  statisticsPeriod: 'hour'
+  numberLocale: undefined
+statistics:
+  enabled: True
+  mode: 'mean'
+  retention: undefined
+  period: 'hour'
+  force: undefined
+uiColors:
+  closeButton: '#000000001f'
+  # Optional: Page's '--primary-color' at 1f transparency
+  buttons: '#03a9f41f'
+  selector: undefined
+infoPanel: {}
+cardName: 'default'
+header: 'History explorer'
+uiLayout:
+  toolbar: ?
+  selector: ?
+  sticky: ?
+  invertZoom: False
+  interval: 'hide'
