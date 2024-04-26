@@ -2300,17 +2300,21 @@ class HistoryCardState {
 
             this.addGraphToCanvas(g.id, g.graph.type, entities, g.graph.options);
 
-        } else
+        } else {
 
             this.addGraphToCanvas(g.id, g.graph.type, g.graph.entities, g.graph.options);
 
+        }
+
         // For bar graphs, connect the interval selector dropdown listener
-        if( g.graph.type == 'bar' )
+        if( g.graph.type == 'bar' ) {
             this._this.querySelector(`#bd-${g.id}`)?.addEventListener('change', this.selectBarInterval.bind(this));
+        }
 
         // For line and bar graphs connect the scale lock button listener
-        if( g.graph.type == 'line' || g.graph.type == 'bar' )
+        if( g.graph.type == 'line' || g.graph.type == 'bar' ) {
             this._this.querySelector(`#ca-${g.id}`)?.addEventListener('click', this.scaleLockClicked.bind(this));
+        }
     }
 
     addDynamicGraph(entity_id)
@@ -3132,10 +3136,10 @@ class HistoryCardState {
     {
         const testEntityExclusionList = function(entity, excludes) { for( let i of excludes ) if( i.test(entity) ) return true; return false; };
 
-        for( let i = 0; i < graphs.length; i++ ) {
-            if( !graphs[i].entities ) continue;
-            let l = { ...graphs[i], 'entities' : [] };
-            for( let e of graphs[i].entities ) {
+        for( let graph of graphs ) {
+            if( !graph.entities ) continue;
+            let l = { ...graph, 'entities' : [] };
+            for( let e of graph.entities ) {
                 if( e.entity.indexOf('*') >= 0 ) {
                     const regexExcludes = this.buildEntityExclusionList(e.exclude);
                     const regex = this.matchWildcardPattern(e.entity);
