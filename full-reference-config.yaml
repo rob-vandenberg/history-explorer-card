@@ -1,11 +1,39 @@
 ---
 type: custom:history-explorer-card
+cardName: 'default'
 
-# Required, but can be empty for dynamic graphs to be configured by users.
+# Header of the card
+header: 'History explorer'
+
+# List of pre-configured (or locked) graphs
 graphs:
-  ## TODO
+  # Pre-defined list of entities for the graph to display
   entities:
     - {}
+  
+  # Each graph can be given its own title, by default they will not have one
+  title: undefined
+
+  # Which type of graph should this be
+  # Available types are: line, bar, arrowline, timeline
+  # By default, type is determined by the entity's state class and units
+  type: ? line, bar, arrowline, timeline
+
+  # Additional options for the graph
+  options:
+    height: ?
+    interval: ?
+    
+    # (line graph only) If true, show the individual samples making up the line graph
+    showSamples: False
+
+    # If true, show the time labels on graph
+    showTimeLabels: True
+
+    stacked: False
+    ymin: null
+    ymax: null
+    ystepsize: null
 
 
 # Optional: Dictionary of colour overrides for specified sensor states
@@ -18,6 +46,7 @@ stateColors:
 # Optional: Overrides options of entities globlly, for dynamically added entities by the user
 entityOptions:
   ## TODO
+  showSamples: False
 
 # Optional: TODO
 labelAreaWidth: 65
@@ -72,11 +101,11 @@ lineWidth: 2.0
 showUnavailable: False
 
 # Optional: TODO
-showCurrentValues: True # TODO: I want this
+showCurrentValues: True # TODO: I want this by graph
 
 axisAddMarginMin: False
 axisAddMarginMax: False
-recordedEntitiesOnly: False # TODO: I want this
+recordedEntitiesOnly: False # TODO: I want this, but does it work?
 filterEntities: undefined
 combineSameUnits: False
 defaultTimeRange: '24'
@@ -110,8 +139,6 @@ uiColors:
   buttons: '#03a9f41f'
   selector: undefined
 infoPanel: {}
-cardName: 'default'
-header: 'History explorer'
 uiLayout:
   toolbar: ?
   selector: ?
