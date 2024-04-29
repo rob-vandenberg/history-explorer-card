@@ -21,8 +21,11 @@ graphs:
 
   # Additional options for the graph
   options:
-    height: ?
-    interval: ?
+    # Height of the graph, in pixels. Defaults to being either `lineGraphHeight`, `barGraphHeight` or calculated, depending on graph type
+    height: null
+
+    # The default interval that bar graphs will be summarised over. Can be one of "10m", "hourly", "daily", or "monthly".
+    interval: "hourly"
     
     # (line graph only) If true, show the individual samples making up the line graph
     showSamples: False
@@ -30,23 +33,65 @@ graphs:
     # If true, show the time labels on graph
     showTimeLabels: True
 
+    # For bar charts, this can be set to True to enable stacking the values
     stacked: False
+
+    # Minimum value of the Y-axis (automatically calculated by default)
     ymin: null
+
+    # Maximum value of the Y-axis (automatically calculated by default)
     ymax: null
+
+    # Step size to display on the Y-axis (automatically calculated by default)
     ystepsize: null
 
 
-# Optional: Dictionary of colour overrides for specified sensor states
+# Dictionary of colour overrides for specified sensor states
 stateColors:
-  # Required: Name of the sensor and state, eg "on" state for "door" sensor
+  # Key is the name of the sensor and state, eg "on" state for "door" sensor would be "door.on"
   # Value is the colour that the specified state should have
   door.on: blue
 
 
-# Optional: Overrides options of entities globlly, for dynamically added entities by the user
+# Overrides options of entities globlly, especially useful for entities added by the user through the UI view
 entityOptions:
-  ## TODO
-  showSamples: False
+  # Keys in this dictionary should be the name (or device class, or domain) of whichever entity is being configured
+  humidity:
+    # If true, hide the entity in the graphs
+    hidden: False
+    
+    # (line graph only) If true, show the individual samples making up the line graph
+    showSamples: False
+
+    # Can be used to define a custom JS expression to post-process the state data before it goes into the graph. Should be defined as a JS expression taking one argument called `state` containing the value of the data series at a given point.
+    process: null
+
+    # Colour of the line in the graph, defaults to automatically assigning a colour
+    color: null
+
+    # Fill colour of the area under the line in the graph, defaults to a lighter shade of 'color'
+    fill: null
+
+    # Style of the line in the graph. Can be: points, shortlines, longlines, pointline, or default which is a solid line
+    dashMode: "solid"
+
+    # Line width, otherwise defaults to the card's value at $.lineWidth
+    width: null
+
+    # (line graph only) Line interpolation mode, otherwise defaults to the card's value at $.lineMode
+    lineMode: null
+
+    # Can be used to scale a specified entity's value by the given factor
+    scale: 1.0
+
+    # (bar graph only) If true, specifies that an entity should be considered to be net-metering for bar charts, and that the value can go down as well as up (rather than being interpreted as the state being reset)
+    netBars: False
+    
+    # Height of the graph created when a user adds this entity. See $graphs.options.height
+    height: null
+    
+    # Default interval of the graph created when a user adds this entity. See $graphs.options.interval
+    interval: "hourly"
 
 # Optional: TODO
 labelAreaWidth: 65
@@ -91,10 +136,10 @@ decimation: undefined
 # Optional: TODO
 rounding: 2
 
-# Optional: TODO
-lineMode: undefined
+# Line interpolation mode. Can be: curves, lines, or stepped
+lineMode: "curves"
 
-# Optional: TODO
+# Line width for lines in graphs
 lineWidth: 2.0
 
 # Optional: TODO
