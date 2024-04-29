@@ -97,100 +97,157 @@ entityOptions:
     # Default interval of the graph created when a user adds this entity. See $graphs.options.interval
     interval: "hourly"
 
-# Optional: TODO
+# Width of the Y-axis label area on the left side of the graph
 labelAreaWidth: 65
 
-# Optional: TODO
+# Whether to display the Y-axis labels on the left side of the graph, or hide them. For state timelines, this will show or hide the state labels.
 labelsVisible: True
 
-# Optional: TODO
+# Whether to display the list of entity labels at the top of the graph
 legendVisible: True
 
-# Optional: TODO
+# TODO
 cursor:
-  # Optional: TODO
+  # TODO
   mode: auto
-  # Optional: TODO
+  # TODO
   types: ['timeline']
 
-# Optional: TODO
+# TODO
 tooltip:
-  # Optional: TODO
+  # TODO
   showColorsLine: True
-  # Optional: TODO
+  # TODO
   showColorsTimeline: True
-  # Optional: TODO
+  # TODO
   size: auto
-  # Optional: TODO
+  # TODO
   showDuration: False
-  # Optional: TODO
+  # TODO
   showLabel: True
-  # Optional: TODO
+  # TODO
   stateTextMode: auto
 
-# Optional: TODO
+# TODO
 stateColorSeed: 137
 
-# Optional: TODO
+# TODO
 stateTextMode: auto
 
-# Optional: TODO
+# TODO
 decimation: undefined
 
-# Optional: TODO
+# TODO
 rounding: 2
 
 # Line interpolation mode. Can be: curves, lines, or stepped
 lineMode: "curves"
 
-# Line width for lines in graphs
+# Line width for lines in line graphs
 lineWidth: 2.0
 
-# Optional: TODO
+# TODO
 showUnavailable: False
 
-# Optional: TODO
+# TODO
 showCurrentValues: True # TODO: I want this by graph
 
+# TODO
 axisAddMarginMin: False
+
+# TODO
 axisAddMarginMax: False
+
+# TODO
 recordedEntitiesOnly: False # TODO: I want this, but does it work?
+
+# TODO
 filterEntities: undefined
+
+# TODO
 combineSameUnits: False
+
+# TODO
 defaultTimeRange: '24'
+
+# TODO
 defaultTimeOffset: undefined
+
+# TODO
 timeTicks:
+  # TODO
   density: 'high'
+  # TODO
   densityOverride: undefined
+  # TODO
   dateFormat: 'short'
+
+# TODO
 lineGraphHeight: 250
+
+# TODO
 barGraphHeight: 150
+
+# TODO
 timelineBarHeight: 24
+
+# TODO
 timelineBarSpacing: 40
+
+# TODO
 refresh:
+  # TODO
   automatic: False
+  # TODO
   interval: undefined
+
+# TODO
 csv:
+  # TODO
   separator: undefined
+  # TODO
   timeFormat: undefined
+  # TODO
   exportAttributes: undefined
+  # TODO
   statisticsPeriod: 'hour'
+  # TODO
   numberLocale: undefined
+
+# TODO
 statistics:
+  # TODO
   enabled: True
+  # TODO
   mode: 'mean'
+  # TODO
   retention: undefined
+  # TODO
   period: 'hour'
+  # TODO
   force: undefined
+
+# TODO
 uiColors:
+  # TODO
   closeButton: '#000000001f'
-  # Optional: Page's '--primary-color' at 1f transparency
+  # Color of the buttons. Page's '--primary-color' at 1f transparency
   buttons: '#03a9f41f'
+  # TODO
   selector: undefined
+
+# TODO
 infoPanel: {}
+
+# TODO
 uiLayout:
+  # TODO
   toolbar: ?
+  # TODO
   selector: ?
+  # TODO
   sticky: ?
+  # TODO
   invertZoom: False
+  # TODO
   interval: 'hide'
