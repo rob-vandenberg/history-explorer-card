@@ -9,7 +9,11 @@ header: 'History explorer'
 graphs:
   # Pre-defined list of entities for the graph to display
   entities:
-    - {}
+      # Each entity can be specified individually by name, or with wildcards
+    - entity: null
+      
+      # Additional entity options can be specified, much like `$.entityOptions`, for example scale
+      scale: 1.0
   
   # Each graph can be given its own title, by default they will not have one
   title: undefined
@@ -48,14 +52,14 @@ graphs:
 
 # Dictionary of colour overrides for specified sensor states
 stateColors:
-  # Key is the name of the sensor and state, eg "on" state for "door" sensor would be "door.on"
+  # Key is the name of the sensor and state, for example "on" state for "door" sensor would be "door.on"
   # Value is the colour that the specified state should have
   door.on: blue
 
 
 # Overrides options of entities globlly, especially useful for entities added by the user through the UI view
 entityOptions:
-  # Keys in this dictionary should be the name (or device class, or domain) of whichever entity is being configured
+  # Keys in this dictionary should be the name (or device class, or domain) of whichever entity is being configured, for example "humidity"
   humidity:
     # If true, hide the entity in the graphs
     hidden: False
