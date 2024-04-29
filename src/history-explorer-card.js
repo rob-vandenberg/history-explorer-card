@@ -2379,7 +2379,7 @@ class HistoryCardState {
         const h = this.calcGraphHeight(type, entities.length, entityOptions?.height);
 
         let html = '';
-        html += `<div sytle='height:${h}px'>`;
+        html += `<div style='height:${h}px'>`;
         html += `<canvas id="graph${this.g_id}" height="${h}px" style='touch-action:pan-y'></canvas>`;
         html += `<button id='bc-${this.g_id}' style="position:absolute;right:20px;margin-top:${-h+5}px;color:var(--primary-text-color);background-color:${this.pconfig.closeButtonColor};border:0px solid black;">×</button>`;
         if( type == 'bar' && !this.ui.hideInterval ) 
