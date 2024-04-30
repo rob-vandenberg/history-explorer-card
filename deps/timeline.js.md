@@ -8,4 +8,7 @@ https://github.com/fanthos/chartjs-chart-timeline/commit/469ceb8429e737957844f7d
 Which is the latest commit. All up to date.
 
 ## Changes
-Many local changes reportedly
+Many changes
+Compare to source here: https://raw.githubusercontent.com/fanthos/chartjs-chart-timeline/master/timeline.js
+There are a lot of changes. Formatting tweaks, moment.js caching, and the entire Arrowline chart is added.
+That's slightly distressing for merging things back
