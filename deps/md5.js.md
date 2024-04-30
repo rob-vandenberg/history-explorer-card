@@ -1,8 +1,10 @@
 # md5.js
 
 ## Links
-I have no idea where this one comes from
+Seems to be Joseph Myer's implementation
+http://www.myersdaily.org/joseph/javascript/md5-text.html
 
 ## Version
+This is basically "older than the internet", as they say.
 
 ## Changes
