@@ -1,40 +1,145 @@
-!function (n) {
-    function e(n, r) {
-        var t = n[0], o = n[1], u = n[2], e = n[3], t = c(t, o, u, e, r[0], 7, -680876936),
-            e = c(e, t, o, u, r[1], 12, -389564586), u = c(u, e, t, o, r[2], 17, 606105819),
-            o = c(o, u, e, t, r[3], 22, -1044525330);
-        t = c(t, o, u, e, r[4], 7, -176418897), e = c(e, t, o, u, r[5], 12, 1200080426), u = c(u, e, t, o, r[6], 17, -1473231341), o = c(o, u, e, t, r[7], 22, -45705983), t = c(t, o, u, e, r[8], 7, 1770035416), e = c(e, t, o, u, r[9], 12, -1958414417), u = c(u, e, t, o, r[10], 17, -42063), o = c(o, u, e, t, r[11], 22, -1990404162), t = c(t, o, u, e, r[12], 7, 1804603682), e = c(e, t, o, u, r[13], 12, -40341101), u = c(u, e, t, o, r[14], 17, -1502002290), o = c(o, u, e, t, r[15], 22, 1236535329), t = f(t, o, u, e, r[1], 5, -165796510), e = f(e, t, o, u, r[6], 9, -1069501632), u = f(u, e, t, o, r[11], 14, 643717713), o = f(o, u, e, t, r[0], 20, -373897302), t = f(t, o, u, e, r[5], 5, -701558691), e = f(e, t, o, u, r[10], 9, 38016083), u = f(u, e, t, o, r[15], 14, -660478335), o = f(o, u, e, t, r[4], 20, -405537848), t = f(t, o, u, e, r[9], 5, 568446438), e = f(e, t, o, u, r[14], 9, -1019803690), u = f(u, e, t, o, r[3], 14, -187363961), o = f(o, u, e, t, r[8], 20, 1163531501), t = f(t, o, u, e, r[13], 5, -1444681467), e = f(e, t, o, u, r[2], 9, -51403784), u = f(u, e, t, o, r[7], 14, 1735328473), o = f(o, u, e, t, r[12], 20, -1926607734), t = i(t, o, u, e, r[5], 4, -378558), e = i(e, t, o, u, r[8], 11, -2022574463), u = i(u, e, t, o, r[11], 16, 1839030562), o = i(o, u, e, t, r[14], 23, -35309556), t = i(t, o, u, e, r[1], 4, -1530992060), e = i(e, t, o, u, r[4], 11, 1272893353), u = i(u, e, t, o, r[7], 16, -155497632), o = i(o, u, e, t, r[10], 23, -1094730640), t = i(t, o, u, e, r[13], 4, 681279174), e = i(e, t, o, u, r[0], 11, -358537222), u = i(u, e, t, o, r[3], 16, -722521979), o = i(o, u, e, t, r[6], 23, 76029189), t = i(t, o, u, e, r[9], 4, -640364487), e = i(e, t, o, u, r[12], 11, -421815835), u = i(u, e, t, o, r[15], 16, 530742520), o = i(o, u, e, t, r[2], 23, -995338651), t = a(t, o, u, e, r[0], 6, -198630844), e = a(e, t, o, u, r[7], 10, 1126891415), u = a(u, e, t, o, r[14], 15, -1416354905), o = a(o, u, e, t, r[5], 21, -57434055), t = a(t, o, u, e, r[12], 6, 1700485571), e = a(e, t, o, u, r[3], 10, -1894986606), u = a(u, e, t, o, r[10], 15, -1051523), o = a(o, u, e, t, r[1], 21, -2054922799), t = a(t, o, u, e, r[8], 6, 1873313359), e = a(e, t, o, u, r[15], 10, -30611744), u = a(u, e, t, o, r[6], 15, -1560198380), o = a(o, u, e, t, r[13], 21, 1309151649), t = a(t, o, u, e, r[4], 6, -145523070), e = a(e, t, o, u, r[11], 10, -1120210379), u = a(u, e, t, o, r[2], 15, 718787259), o = a(o, u, e, t, r[9], 21, -343485551), n[0] = g(t, n[0]), n[1] = g(o, n[1]), n[2] = g(u, n[2]), n[3] = g(e, n[3])
-    }
 
-    function c(n, r, t, o, u, e, c) {
-        return h(r & t | ~r & o, n, r, u, e, c)
-    }
+(function(global) {
 
-    function f(n, r, t, o, u, e, c) {
-        return h(r & o | t & ~o, n, r, u, e, c)
-    }
+var md5cycle = function(x, k) 
+{
+    var a = x[0], b = x[1], c = x[2], d = x[3];
 
-    function i(n, r, t, o, u, e, c) {
-        return h(r ^ t ^ o, n, r, u, e, c)
-    }
+    a = ff(a, b, c, d, k[0], 7, -680876936);
+    d = ff(d, a, b, c, k[1], 12, -389564586);
+    c = ff(c, d, a, b, k[2], 17,  606105819);
+    b = ff(b, c, d, a, k[3], 22, -1044525330);
+    a = ff(a, b, c, d, k[4], 7, -176418897);
+    d = ff(d, a, b, c, k[5], 12,  1200080426);
+    c = ff(c, d, a, b, k[6], 17, -1473231341);
+    b = ff(b, c, d, a, k[7], 22, -45705983);
+    a = ff(a, b, c, d, k[8], 7,  1770035416);
+    d = ff(d, a, b, c, k[9], 12, -1958414417);
+    c = ff(c, d, a, b, k[10], 17, -42063);
+    b = ff(b, c, d, a, k[11], 22, -1990404162);
+    a = ff(a, b, c, d, k[12], 7,  1804603682);
+    d = ff(d, a, b, c, k[13], 12, -40341101);
+    c = ff(c, d, a, b, k[14], 17, -1502002290);
+    b = ff(b, c, d, a, k[15], 22,  1236535329);
 
-    function a(n, r, t, o, u, e, c) {
-        return h(t ^ (r | ~o), n, r, u, e, c)
-    }
+    a = gg(a, b, c, d, k[1], 5, -165796510);
+    d = gg(d, a, b, c, k[6], 9, -1069501632);
+    c = gg(c, d, a, b, k[11], 14,  643717713);
+    b = gg(b, c, d, a, k[0], 20, -373897302);
+    a = gg(a, b, c, d, k[5], 5, -701558691);
+    d = gg(d, a, b, c, k[10], 9,  38016083);
+    c = gg(c, d, a, b, k[15], 14, -660478335);
+    b = gg(b, c, d, a, k[4], 20, -405537848);
+    a = gg(a, b, c, d, k[9], 5,  568446438);
+    d = gg(d, a, b, c, k[14], 9, -1019803690);
+    c = gg(c, d, a, b, k[3], 14, -187363961);
+    b = gg(b, c, d, a, k[8], 20,  1163531501);
+    a = gg(a, b, c, d, k[13], 5, -1444681467);
+    d = gg(d, a, b, c, k[2], 9, -51403784);
+    c = gg(c, d, a, b, k[7], 14,  1735328473);
+    b = gg(b, c, d, a, k[12], 20, -1926607734);
 
-    var h = function (n, r, t, o, u, e) {
-        return r = g(g(r, n), g(o, e)), g(r << u | r >>> 32 - u, t)
-    }, d = (n.md5hx = function (n) {
-        for (var r = n.length, t = [1732584193, -271733879, -1732584194, 271733878], o = 64; o <= n.length; o += 64) e(t, d(n.substring(o - 64, o)));
-        n = n.substring(o - 64);
-        var u = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        for (o = 0; o < n.length; o++) u[o >> 2] |= n.charCodeAt(o) << (o % 4 << 3);
-        if (u[o >> 2] |= 128 << (o % 4 << 3), 55 < o) for (e(t, u), o = 0; o < 16; o++) u[o] = 0;
-        return u[14] = 8 * r, e(t, u), t
-    }, function (n) {
-        for (var r = [], t = 0; t < 64; t += 4) r[t >> 2] = n.charCodeAt(t) + (n.charCodeAt(t + 1) << 8) + (n.charCodeAt(t + 2) << 16) + (n.charCodeAt(t + 3) << 24);
-        return r
-    }), g = function (n, r) {
-        return n + r & 4294967295
+    a = hh(a, b, c, d, k[5], 4, -378558);
+    d = hh(d, a, b, c, k[8], 11, -2022574463);
+    c = hh(c, d, a, b, k[11], 16,  1839030562);
+    b = hh(b, c, d, a, k[14], 23, -35309556);
+    a = hh(a, b, c, d, k[1], 4, -1530992060);
+    d = hh(d, a, b, c, k[4], 11,  1272893353);
+    c = hh(c, d, a, b, k[7], 16, -155497632);
+    b = hh(b, c, d, a, k[10], 23, -1094730640);
+    a = hh(a, b, c, d, k[13], 4,  681279174);
+    d = hh(d, a, b, c, k[0], 11, -358537222);
+    c = hh(c, d, a, b, k[3], 16, -722521979);
+    b = hh(b, c, d, a, k[6], 23,  76029189);
+    a = hh(a, b, c, d, k[9], 4, -640364487);
+    d = hh(d, a, b, c, k[12], 11, -421815835);
+    c = hh(c, d, a, b, k[15], 16,  530742520);
+    b = hh(b, c, d, a, k[2], 23, -995338651);
+
+    a = ii(a, b, c, d, k[0], 6, -198630844);
+    d = ii(d, a, b, c, k[7], 10,  1126891415);
+    c = ii(c, d, a, b, k[14], 15, -1416354905);
+    b = ii(b, c, d, a, k[5], 21, -57434055);
+    a = ii(a, b, c, d, k[12], 6,  1700485571);
+    d = ii(d, a, b, c, k[3], 10, -1894986606);
+    c = ii(c, d, a, b, k[10], 15, -1051523);
+    b = ii(b, c, d, a, k[1], 21, -2054922799);
+    a = ii(a, b, c, d, k[8], 6,  1873313359);
+    d = ii(d, a, b, c, k[15], 10, -30611744);
+    c = ii(c, d, a, b, k[6], 15, -1560198380);
+    b = ii(b, c, d, a, k[13], 21,  1309151649);
+    a = ii(a, b, c, d, k[4], 6, -145523070);
+    d = ii(d, a, b, c, k[11], 10, -1120210379);
+    c = ii(c, d, a, b, k[2], 15,  718787259);
+    b = ii(b, c, d, a, k[9], 21, -343485551);
+
+    x[0] = add32(a, x[0]);
+    x[1] = add32(b, x[1]);
+    x[2] = add32(c, x[2]);
+    x[3] = add32(d, x[3]);
+}
+
+var cmn = function(q, a, b, x, s, t) 
+{
+    a = add32(add32(a, q), add32(x, t));
+    return add32((a << s) | (a >>> (32 - s)), b);
+}
+
+var ff = function(a, b, c, d, x, s, t) 
+{
+    return cmn((b & c) | ((~b) & d), a, b, x, s, t);
+}
+
+var gg = function(a, b, c, d, x, s, t) 
+{
+    return cmn((b & d) | (c & (~d)), a, b, x, s, t);
+}
+
+var hh = function(a, b, c, d, x, s, t) 
+{
+    return cmn(b ^ c ^ d, a, b, x, s, t);
+}
+
+var ii = function(a, b, c, d, x, s, t) 
+{
+    return cmn(c ^ (b | (~d)), a, b, x, s, t);
+}
+
+var md51 = global.md5hx = function(s) 
+{
+    var n = s.length,
+    state = [1732584193, -271733879, -1732584194, 271733878], i;
+    for (i=64; i<=s.length; i+=64) {
+        md5cycle(state, md5blk(s.substring(i-64, i)));
     }
-}(window);
+    s = s.substring(i-64);
+    var tail = [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0];
+    for (i=0; i<s.length; i++)
+        tail[i>>2] |= s.charCodeAt(i) << ((i%4) << 3);
+    tail[i>>2] |= 0x80 << ((i%4) << 3);
+    if (i > 55) {
+        md5cycle(state, tail);
+        for (i=0; i<16; i++) tail[i] = 0;
+    }
+    tail[14] = n*8;
+    md5cycle(state, tail);
+    return state;
+}
+
+var md5blk = function(s)
+{
+    var md5blks = [], i;
+    for (i=0; i<64; i+=4) {
+        md5blks[i>>2] = s.charCodeAt(i)
+        + (s.charCodeAt(i+1) << 8)
+        + (s.charCodeAt(i+2) << 16)
+        + (s.charCodeAt(i+3) << 24);
+    }
+    return md5blks;
+}
+
+var add32 = function(a, b) {
+    return (a + b) & 0xFFFFFFFF;
+}
+
+})(window);
