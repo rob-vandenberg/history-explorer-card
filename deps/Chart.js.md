@@ -11,3 +11,5 @@ Newest atm is 4.4.2 [2024-02-28]
 
 ## Changes
 Not sure which changes
+Compare with source: https://raw.githubusercontent.com/chartjs/Chart.js/v2.7.1/dist/Chart.js
+Seems like a lot of changes, but most might be formatting? And there's a moment cache in there, and renaming the exported module
