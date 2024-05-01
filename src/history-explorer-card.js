@@ -5,6 +5,9 @@ import "../deps/timeline.js";
 import "../deps/md5.js"
 import "../deps/FileSaver.js"
 
+var Chart = window.HXLocal_Chart;
+var moment = window.HXLocal_moment;
+
 const Version = '1.0.52';
 
 var isMobile = ( navigator.appVersion.indexOf("Mobi") > -1 ) || ( navigator.userAgent.indexOf("HomeAssistant") > -1 );
