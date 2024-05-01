@@ -1,9 +1,9 @@
 
-import "./deps/moment.min.js";
-import "./deps/Chart.js";
-import "./deps/timeline.js";
-import "./deps/md5.min.js"
-import "./deps/FileSaver.js"
+import "../deps/moment.js";
+import "../deps/Chart.js";
+import "../deps/timeline.js";
+import "../deps/md5.js"
+import "../deps/FileSaver.js"
 
 const Version = '1.0.51';
 
