@@ -5,7 +5,7 @@ import "../deps/timeline.js";
 import "../deps/md5.js"
 import "../deps/FileSaver.js"
 
-const Version = '1.0.51';
+const Version = '1.0.52';
 
 var isMobile = ( navigator.appVersion.indexOf("Mobi") > -1 ) || ( navigator.userAgent.indexOf("HomeAssistant") > -1 );
 
