@@ -113,20 +113,28 @@ cursor:
   # Which types of graph should a vertical line. Defaults to just timeline charts, but bar, line, and arrowline graphs can be specified here.
   types: ['timeline']
 
-# TODO
+# Configuration related to the tooltip displaying
 tooltip:
-  # TODO
+  # Whether to show the colours of each data series in the tool tip on line graphs
+  # (Can also be set with $.showTooltipColorsLine)
   showColorsLine: True
-  # TODO
+  
+  # Whether to show the colours of each data series in the tool tip on timeline graphs
+  # (Can also be set with $.showTooltipColorsTimeline)
   showColorsTimeline: True
+
+  # The size of the tooltip to display. Can also be set to: 'full', 'slim', 'compact'
+  # (Can also be set with $.tooltipSize)
+  size: "auto"
+
   # TODO
-  size: auto
-  # TODO
+  # (Can also be set with $.tooltipShowDuration)
   showDuration: False
   # TODO
   showLabel: True
   # TODO
-  stateTextMode: auto
+  # (Can also be set wih $.stateTextMode)
+  stateTextMode: "auto"
 
 # TODO
 stateColorSeed: 137
