@@ -127,25 +127,26 @@ tooltip:
   # (Can also be set with $.tooltipSize)
   size: "auto"
 
-  # TODO
+  # Whether to show the duration of the given state on the tooltip for timeline graphs
   # (Can also be set with $.tooltipShowDuration)
   showDuration: False
-  # TODO
+
+  # Whether to show the name of the data series on the tooltip (for line and bar graphs)
   showLabel: True
-  # TODO
-  # (Can also be set wih $.stateTextMode)
+
+  # Similar to $.stateTextMode config, but for the tooltip, defaults to matching $.stateTextMode, or auto
   stateTextMode: "auto"
 
-# TODO
+# If timeline state colours have not been defined, this is used as a seed value when randomly generating the colours for each state value
 stateColorSeed: 137
 
-# TODO
+# Whether to use device-class dependent state names (e.g. Open/Closed, Detected/Clear) for state labels in timeline charts, or use the raw state values, or just hide the state labels. Can be 'auto', 'raw', or 'hide'
 stateTextMode: auto
 
 # TODO
 decimation: undefined
 
-# TODO
+# How many decimal places to round values to, in tool tips and labels
 rounding: 2
 
 # Line interpolation mode. Can be: curves, lines, or stepped
