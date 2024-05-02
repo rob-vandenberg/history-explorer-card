@@ -106,11 +106,11 @@ labelsVisible: True
 # Whether to display the list of entity labels at the top of the graph
 legendVisible: True
 
-# TODO
+# Configuration of the vertical line drawn on the graph under the user's cursor (for non-mobile users only)
 cursor:
-  # TODO
+  # Whether to show the vertical line on all graphs in the card (all), just the hovered graph (auto), or hide it on all graphs (hide). Possible options: auto, all, or hide
   mode: auto
-  # TODO
+  # Which types of graph should a vertical line. Defaults to just timeline charts, but bar, line, and arrowline graphs can be specified here.
   types: ['timeline']
 
 # TODO
