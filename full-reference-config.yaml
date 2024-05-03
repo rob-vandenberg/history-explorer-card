@@ -141,10 +141,10 @@ tooltip:
 stateColorSeed: 137
 
 # Whether to use device-class dependent state names (e.g. Open/Closed, Detected/Clear) for state labels in timeline charts, or use the raw state values, or just hide the state labels. Can be 'auto', 'raw', or 'hide'
-stateTextMode: auto
+stateTextMode: "auto"
 
-# TODO
-decimation: undefined
+# Decimation is simplifying the history when viewing wider time ranges, for faster loading times and clearer data. Can be set to False (to disable decimation), "fast" (to do fast approximate decimation), or "accurate" (for accurate minmax preserving at all scales)
+decimation: "fast"
 
 # How many decimal places to round values to, in tool tips and labels
 rounding: 2
@@ -155,36 +155,38 @@ lineMode: "curves"
 # Line width for lines in line graphs
 lineWidth: 2.0
 
-# TODO
+# By default, line graphs will interpolate curves over missing data. Enable this config option to show gaps for unavailable data 
 showUnavailable: False
 
-# TODO
-showCurrentValues: True # TODO: I want this by graph
+# Whether to show the current value of data series in the key at the top of the graph
+showCurrentValues: True
 
-# TODO
+# Whether to add a margin to the bottom of line charts to give extra space for curves in case they overshoot the graphing area
 axisAddMarginMin: False
 
-# TODO
+# Whether to add a margin to the top of line charts to give extra space for curves in case they overshoot the graphing area
 axisAddMarginMax: False
 
-# TODO
-recordedEntitiesOnly: False # TODO: I want this, but does it work?
+# Whether to show all entities known to HA (the default), or to only show entities which are available in the database
+recordedEntitiesOnly: False
 
-# TODO
+# Which entities to show in the UI dropdown list. Can be provided as a string, or a list of strings, with wildcards. 
 filterEntities: undefined
 
-# TODO
+# Whether to combine all data series which use the same units, into the same graphs, when adding entities through the UI.
 combineSameUnits: False
 
-# TODO
+# The default time range to display in the card. Can specify in minutes, hours, days, weeks, months or years. Defaults to being in hours if no unit suffix is given.
 defaultTimeRange: '24'
 
-# TODO
+# By default, the right side of the graph will be the current time. Use this to offset the time range the graph should display. Using lower case suffices for relative offsets, and using upper case units to display the current hour, day, month or year.
 defaultTimeOffset: undefined
 
-# TODO
+# Settings for the time ticks, the vertical lines in the background of the graph
 timeTicks:
   # TODO
+  # Can be: low, medium, high, higher, highest
+  # (Can also be set with $.timeTickDensity)
   density: 'high'
   # TODO
   densityOverride: undefined
