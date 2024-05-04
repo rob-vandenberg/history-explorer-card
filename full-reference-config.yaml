@@ -184,63 +184,64 @@ defaultTimeOffset: undefined
 
 # Settings for the time ticks, the vertical lines in the background of the graph
 timeTicks:
-  # TODO
+  # The maximum density of time ticks, while allowing the actual density to be determined by the width of the graph on the display
   # Can be: low, medium, high, higher, highest
   # (Can also be set with $.timeTickDensity)
   density: 'high'
-  # TODO
+  # An override of the time tick density to set the density without adjusting tick density for the screen size.
+  # Has the same options as $.timeTicks.density: low, medium, high, higher, highest
   densityOverride: undefined
-  # TODO
-  dateFormat: 'short'
+  # Whether to use full date format, or short date formats. Specify "short" for short date formats.
+  dateFormat: 'full'
 
-# TODO
+# Height of the line graphs in the card. 
 lineGraphHeight: 250
 
-# TODO
+# Height of the bar graphs in the card.
 barGraphHeight: 150
 
-# TODO
+# Height of bars in timeline graphs
 timelineBarHeight: 24
 
-# TODO
+# Distance from the top of one bar in the timeline graph, to the top of the next bar. (This, minus $.timelineBarHeight, gives the space between bars)
 timelineBarSpacing: 40
 
-# TODO
+# Settings around automatically refreshing the graphs. By default they will refresh only when you refresh the page
 refresh:
-  # TODO
+  # If set true, will automatically refresh the graphs as new data comes in for tracked entities
   automatic: False
-  # TODO
+  # Here you can set the length of the interval (in seconds) after which to automatically refresh the graph data.
   interval: undefined
 
-# TODO
+# Settings related to the csv export functionality
 csv:
-  # TODO
-  separator: undefined
-  # TODO
-  timeFormat: undefined
-  # TODO
-  exportAttributes: undefined
-  # TODO
+  # Which separator string to use between columns in the CSV file
+  separator: ","
+  # Set the date-time format to use in the CSV file
+  timeFormat: 'YYYY-MM-DD HH:mm:ss'
+  # Whether to export entity state attributes alongside the values in the CSV file
+  exportAttributes: False
+  # What period to summarise state values by in the statistics CSV file
   statisticsPeriod: 'hour'
-  # TODO
+  # If provided, format numbers with the specified locale. Can be whichever locales are accepted by Intl.NumberFormat
   numberLocale: undefined
 
-# TODO
+# Settings related to long-term statistics support, and querying them for oldre data than the history data
 statistics:
-  # TODO
+  # Enabled by default, but you can use this setting to disable long term statistics.
   enabled: True
-  # TODO
+  # Which type of processing to do on the long term statistics. Can be mean, min, or max
   mode: 'mean'
   # TODO
   retention: undefined
-  # TODO
+  # Reporting period that statistics are averaged over. Can be hour, day, or month
   period: 'hour'
-  # TODO
+  # If set to true, graph will use long term statistics only, forgoing normal history data
   force: undefined
 
-# TODO
+# Settings related to the colours of the UI
 uiColors:
-  # TODO
+  # Which colour should the close button be, at the top of user-added graphs
   closeButton: '#000000001f'
   # Color of the buttons. Page's '--primary-color' at 1f transparency
   buttons: '#03a9f41f'
