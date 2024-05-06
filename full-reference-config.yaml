@@ -226,13 +226,13 @@ csv:
   # If provided, format numbers with the specified locale. Can be whichever locales are accepted by Intl.NumberFormat
   numberLocale: undefined
 
-# Settings related to long-term statistics support, and querying them for oldre data than the history data
+# Settings related to long-term statistics support, and querying them for older data than the history data
 statistics:
   # Enabled by default, but you can use this setting to disable long term statistics.
   enabled: True
   # Which type of processing to do on the long term statistics. Can be mean, min, or max
   mode: 'mean'
-  # TODO
+  # The card will attempt to automatically work out the retention time of your HA history recorder, but you can manually set it here. It must be less than the HA retention time. Data older than this will use the statistics API
   retention: undefined
   # Reporting period that statistics are averaged over. Can be hour, day, or month
   period: 'hour'
@@ -245,21 +245,28 @@ uiColors:
   closeButton: '#000000001f'
   # Color of the buttons. Page's '--primary-color' at 1f transparency
   buttons: '#03a9f41f'
-  # TODO
+  # Background colour of the entity selector
   selector: undefined
+  # Colour of the labels. Defaults to '#9b9b9b' if darkmode, '#333' otherwise.
+  labels: undefined
+  # Colour of the gridlines on the graph. Defaults to 'rgba(255, 255, 255, 0.1)'' if darkmode, 'rgba(0, 0, 0, 0.1)'' otherwise
+  gridlines: undefined
+  # Colour of the vline under the cursor. Defaults to the gridline colour if not specified
+  cursorline: undefined
 
-# TODO
+# If you choose to enable history explorer graphs to override the default HA history info panel, config options here can be used to configure those graphs.
+# You will have to set the options here (which can be much the same as history explorer card options elsewhere in this config), then you will click "Enable history info panel" on this card, and all HA history info panels will be replaced with history explorer graphs
 infoPanel: {}
 
-# TODO
+# You can use these to configure where various UI elements of the card will be displayed, or hide them completely.
 uiLayout:
-  # TODO
-  toolbar: ?
-  # TODO
-  selector: ?
-  # TODO
-  sticky: ?
-  # TODO
+  # Location of the toolbar, including date and interval selector. Options are: top, bottom, both, or hide
+  toolbar: 'top'
+  # Location of the entity selector. Options are: top, bottom, both, or hide
+  selector: 'bottom'
+  # Where the toolbars should stick, when scrolling. By default they do not stick to screen. But here they can be made to stick to the top, bottom, or both sides of the screen when scrolling.
+  sticky: 'hide'
+  # Whether to switch the + and - buttons around on the interval selector
   invertZoom: False
-  # TODO
-  interval: 'hide'
+  # If set to 'hide', the interval selector on total_increasing bar graphs will be hidden.
+  interval: undefined
