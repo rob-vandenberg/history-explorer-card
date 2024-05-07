@@ -3,7 +3,7 @@
 // Chartjs vertical line plugin
 // --------------------------------------------------------------------------------------
 
-const vertline_plugin = {
+export const vertline_plugin = {
 
     id: 'vertline',
 

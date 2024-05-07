@@ -1,4 +1,6 @@
 
+import { defaultGood, defaultInactiveLight, defaultInactiveDark, stateColors, stateColorsDark, parseColor } from "./history-default-colors";
+
 // --------------------------------------------------------------------------------------
 // Clone of lit html(), don't want to pull in the entire framework
 // --------------------------------------------------------------------------------------

@@ -24,7 +24,7 @@ function escapeSeperator(sep, state)
 // Export CSV : history DB
 // --------------------------------------------------------------------------------------
 
-class HistoryCSVExporter {
+export class HistoryCSVExporter {
 
     constructor() 
     {
@@ -144,7 +144,7 @@ class HistoryCSVExporter {
 // Export CSV : statistics DB
 // --------------------------------------------------------------------------------------
 
-class StatisticsCSVExporter {
+export class StatisticsCSVExporter {
 
     constructor() 
     {
