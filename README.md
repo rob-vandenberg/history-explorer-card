@@ -1,10 +1,3 @@
-
-# This custom card was declared end-of-life and is not maintained anymore.
-
-
-----
-
-
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-41BDF5.svg?style=for-the-badge)](https://github.com/hacs/integration)  
 [![bymecoffee](https://user-images.githubusercontent.com/60828821/212549591-950f90de-6884-4bc2-bb66-d2cd1d6f00b6.png)](https://www.buymeacoffee.com/alexarch)
 
@@ -53,6 +46,10 @@ The history explorer card is now part of the default [HACS Home Assistant Commun
  5. Hit create
 
 You can now add the card to your dashboard as usual. You may have to refresh the page in your browser once after adding the card to properly initialize it.
+
+### Full configuration reference
+
+To see a list of all possible configuration options, check the [Full reference config](full-reference-config.yaml) file, which provides an example of all config parameters for the card, along with their defaults and a short explanation of their functionality.
 
 ### Interactive configuration
 
