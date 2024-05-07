@@ -1,0 +1,272 @@
+---
+type: custom:history-explorer-card
+cardName: 'default'
+
+# Header of the card
+header: 'History explorer'
+
+# List of pre-configured (or locked) graphs
+graphs:
+  # Pre-defined list of entities for the graph to display
+  entities:
+      # Each entity can be specified individually by name, or with wildcards
+    - entity: null
+      
+      # Additional entity options can be specified, much like `$.entityOptions`, for example scale
+      scale: 1.0
+  
+  # Each graph can be given its own title, by default they will not have one
+  title: undefined
+
+  # Which type of graph should this be
+  # Available types are: line, bar, arrowline, timeline
+  # By default, type is determined by the entity's state class and units
+  type: ? line, bar, arrowline, timeline
+
+  # Additional options for the graph
+  options:
+    # Height of the graph, in pixels. Defaults to being either `lineGraphHeight`, `barGraphHeight` or calculated, depending on graph type
+    height: null
+
+    # The default interval that bar graphs will be summarised over. Can be one of "10m", "hourly", "daily", or "monthly".
+    interval: "hourly"
+    
+    # (line graph only) If true, show the individual samples making up the line graph
+    showSamples: False
+
+    # If true, show the time labels on graph
+    showTimeLabels: True
+
+    # For bar charts, this can be set to True to enable stacking the values
+    stacked: False
+
+    # Minimum value of the Y-axis (automatically calculated by default)
+    ymin: null
+
+    # Maximum value of the Y-axis (automatically calculated by default)
+    ymax: null
+
+    # Step size to display on the Y-axis (automatically calculated by default)
+    ystepsize: null
+
+
+# Dictionary of colour overrides for specified sensor states
+stateColors:
+  # Key is the name of the sensor and state, for example "on" state for "door" sensor would be "door.on"
+  # Value is the colour that the specified state should have
+  door.on: blue
+
+
+# Overrides options of entities globlly, especially useful for entities added by the user through the UI view
+entityOptions:
+  # Keys in this dictionary should be the name (or device class, or domain) of whichever entity is being configured, for example "humidity"
+  humidity:
+    # If true, hide the entity in the graphs
+    hidden: False
+    
+    # (line graph only) If true, show the individual samples making up the line graph
+    showSamples: False
+
+    # Can be used to define a custom JS expression to post-process the state data before it goes into the graph. Should be defined as a JS expression taking one argument called `state` containing the value of the data series at a given point.
+    process: null
+
+    # Colour of the line in the graph, defaults to automatically assigning a colour
+    color: null
+
+    # Fill colour of the area under the line in the graph, defaults to a lighter shade of 'color'
+    fill: null
+
+    # Style of the line in the graph. Can be: points, shortlines, longlines, pointline, or default which is a solid line
+    dashMode: "solid"
+
+    # Line width, otherwise defaults to the card's value at $.lineWidth
+    width: null
+
+    # (line graph only) Line interpolation mode, otherwise defaults to the card's value at $.lineMode
+    lineMode: null
+
+    # Can be used to scale a specified entity's value by the given factor
+    scale: 1.0
+
+    # (bar graph only) If true, specifies that an entity should be considered to be net-metering for bar charts, and that the value can go down as well as up (rather than being interpreted as the state being reset)
+    netBars: False
+    
+    # Height of the graph created when a user adds this entity. See $graphs.options.height
+    height: null
+    
+    # Default interval of the graph created when a user adds this entity. See $graphs.options.interval
+    interval: "hourly"
+
+# Width of the Y-axis label area on the left side of the graph
+labelAreaWidth: 65
+
+# Whether to display the Y-axis labels on the left side of the graph, or hide them. For state timelines, this will show or hide the state labels.
+labelsVisible: True
+
+# Whether to display the list of entity labels at the top of the graph
+legendVisible: True
+
+# Configuration of the vertical line drawn on the graph under the user's cursor (for non-mobile users only)
+cursor:
+  # Whether to show the vertical line on all graphs in the card (all), just the hovered graph (auto), or hide it on all graphs (hide). Possible options: auto, all, or hide
+  mode: auto
+  # Which types of graph should a vertical line. Defaults to just timeline charts, but bar, line, and arrowline graphs can be specified here.
+  types: ['timeline']
+
+# Configuration related to the tooltip displaying
+tooltip:
+  # Whether to show the colours of each data series in the tool tip on line graphs
+  # (Can also be set with $.showTooltipColorsLine)
+  showColorsLine: True
+  
+  # Whether to show the colours of each data series in the tool tip on timeline graphs
+  # (Can also be set with $.showTooltipColorsTimeline)
+  showColorsTimeline: True
+
+  # The size of the tooltip to display. Can also be set to: 'full', 'slim', 'compact'
+  # (Can also be set with $.tooltipSize)
+  size: "auto"
+
+  # Whether to show the duration of the given state on the tooltip for timeline graphs
+  # (Can also be set with $.tooltipShowDuration)
+  showDuration: False
+
+  # Whether to show the name of the data series on the tooltip (for line and bar graphs)
+  showLabel: True
+
+  # Similar to $.stateTextMode config, but for the tooltip, defaults to matching $.stateTextMode, or auto
+  stateTextMode: "auto"
+
+# If timeline state colours have not been defined, this is used as a seed value when randomly generating the colours for each state value
+stateColorSeed: 137
+
+# Whether to use device-class dependent state names (e.g. Open/Closed, Detected/Clear) for state labels in timeline charts, or use the raw state values, or just hide the state labels. Can be 'auto', 'raw', or 'hide'
+stateTextMode: "auto"
+
+# Decimation is simplifying the history when viewing wider time ranges, for faster loading times and clearer data. Can be set to False (to disable decimation), "fast" (to do fast approximate decimation), or "accurate" (for accurate minmax preserving at all scales)
+decimation: "fast"
+
+# How many decimal places to round values to, in tool tips and labels
+rounding: 2
+
+# Line interpolation mode. Can be: curves, lines, or stepped
+lineMode: "curves"
+
+# Line width for lines in line graphs
+lineWidth: 2.0
+
+# By default, line graphs will interpolate curves over missing data. Enable this config option to show gaps for unavailable data 
+showUnavailable: False
+
+# Whether to show the current value of data series in the key at the top of the graph
+showCurrentValues: True
+
+# Whether to add a margin to the bottom of line charts to give extra space for curves in case they overshoot the graphing area
+axisAddMarginMin: False
+
+# Whether to add a margin to the top of line charts to give extra space for curves in case they overshoot the graphing area
+axisAddMarginMax: False
+
+# Whether to show all entities known to HA (the default), or to only show entities which are available in the database
+recordedEntitiesOnly: False
+
+# Which entities to show in the UI dropdown list. Can be provided as a string, or a list of strings, with wildcards. 
+filterEntities: undefined
+
+# Whether to combine all data series which use the same units, into the same graphs, when adding entities through the UI.
+combineSameUnits: False
+
+# The default time range to display in the card. Can specify in minutes, hours, days, weeks, months or years. Defaults to being in hours if no unit suffix is given.
+defaultTimeRange: '24'
+
+# By default, the right side of the graph will be the current time. Use this to offset the time range the graph should display. Using lower case suffices for relative offsets, and using upper case units to display the current hour, day, month or year.
+defaultTimeOffset: undefined
+
+# Settings for the time ticks, the vertical lines in the background of the graph
+timeTicks:
+  # The maximum density of time ticks, while allowing the actual density to be determined by the width of the graph on the display
+  # Can be: low, medium, high, higher, highest
+  # (Can also be set with $.timeTickDensity)
+  density: 'high'
+  # An override of the time tick density to set the density without adjusting tick density for the screen size.
+  # Has the same options as $.timeTicks.density: low, medium, high, higher, highest
+  densityOverride: undefined
+  # Whether to use full date format, or short date formats. Specify "short" for short date formats.
+  dateFormat: 'full'
+
+# Height of the line graphs in the card. 
+lineGraphHeight: 250
+
+# Height of the bar graphs in the card.
+barGraphHeight: 150
+
+# Height of bars in timeline graphs
+timelineBarHeight: 24
+
+# Distance from the top of one bar in the timeline graph, to the top of the next bar. (This, minus $.timelineBarHeight, gives the space between bars)
+timelineBarSpacing: 40
+
+# Settings around automatically refreshing the graphs. By default they will refresh only when you refresh the page
+refresh:
+  # If set true, will automatically refresh the graphs as new data comes in for tracked entities
+  automatic: False
+  # Here you can set the length of the interval (in seconds) after which to automatically refresh the graph data.
+  interval: undefined
+
+# Settings related to the csv export functionality
+csv:
+  # Which separator string to use between columns in the CSV file
+  separator: ","
+  # Set the date-time format to use in the CSV file
+  timeFormat: 'YYYY-MM-DD HH:mm:ss'
+  # Whether to export entity state attributes alongside the values in the CSV file
+  exportAttributes: False
+  # What period to summarise state values by in the statistics CSV file
+  statisticsPeriod: 'hour'
+  # If provided, format numbers with the specified locale. Can be whichever locales are accepted by Intl.NumberFormat
+  numberLocale: undefined
+
+# Settings related to long-term statistics support, and querying them for older data than the history data
+statistics:
+  # Enabled by default, but you can use this setting to disable long term statistics.
+  enabled: True
+  # Which type of processing to do on the long term statistics. Can be mean, min, or max
+  mode: 'mean'
+  # The card will attempt to automatically work out the retention time of your HA history recorder, but you can manually set it here. It must be less than the HA retention time. Data older than this will use the statistics API
+  retention: undefined
+  # Reporting period that statistics are averaged over. Can be hour, day, or month
+  period: 'hour'
+  # If set to true, graph will use long term statistics only, forgoing normal history data
+  force: undefined
+
+# Settings related to the colours of the UI
+uiColors:
+  # Which colour should the close button be, at the top of user-added graphs
+  closeButton: '#000000001f'
+  # Color of the buttons. Page's '--primary-color' at 1f transparency
+  buttons: '#03a9f41f'
+  # Background colour of the entity selector
+  selector: undefined
+  # Colour of the labels. Defaults to '#9b9b9b' if darkmode, '#333' otherwise.
+  labels: undefined
+  # Colour of the gridlines on the graph. Defaults to 'rgba(255, 255, 255, 0.1)'' if darkmode, 'rgba(0, 0, 0, 0.1)'' otherwise
+  gridlines: undefined
+  # Colour of the vline under the cursor. Defaults to the gridline colour if not specified
+  cursorline: undefined
+
+# If you choose to enable history explorer graphs to override the default HA history info panel, config options here can be used to configure those graphs.
+# You will have to set the options here (which can be much the same as history explorer card options elsewhere in this config), then you will click "Enable history info panel" on this card, and all HA history info panels will be replaced with history explorer graphs
+infoPanel: {}
+
+# You can use these to configure where various UI elements of the card will be displayed, or hide them completely.
+uiLayout:
+  # Location of the toolbar, including date and interval selector. Options are: top, bottom, both, or hide
+  toolbar: 'top'
+  # Location of the entity selector. Options are: top, bottom, both, or hide
+  selector: 'bottom'
+  # Where the toolbars should stick, when scrolling. By default they do not stick to screen. But here they can be made to stick to the top, bottom, or both sides of the screen when scrolling.
+  sticky: 'hide'
+  # Whether to switch the + and - buttons around on the interval selector
+  invertZoom: False
+  # If set to 'hide', the interval selector on total_increasing bar graphs will be hidden.
+  interval: undefined

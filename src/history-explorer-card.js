@@ -2303,17 +2303,21 @@ class HistoryCardState {
 
             this.addGraphToCanvas(g.id, g.graph.type, entities, g.graph.options);
 
-        } else
+        } else {
 
             this.addGraphToCanvas(g.id, g.graph.type, g.graph.entities, g.graph.options);
 
+        }
+
         // For bar graphs, connect the interval selector dropdown listener
-        if( g.graph.type == 'bar' )
+        if( g.graph.type == 'bar' ) {
             this._this.querySelector(`#bd-${g.id}`)?.addEventListener('change', this.selectBarInterval.bind(this));
+        }
 
         // For line and bar graphs connect the scale lock button listener
-        if( g.graph.type == 'line' || g.graph.type == 'bar' )
+        if( g.graph.type == 'line' || g.graph.type == 'bar' ) {
             this._this.querySelector(`#ca-${g.id}`)?.addEventListener('click', this.scaleLockClicked.bind(this));
+        }
     }
 
     addDynamicGraph(entity_id)
@@ -2378,7 +2382,7 @@ class HistoryCardState {
         const h = this.calcGraphHeight(type, entities.length, entityOptions?.height);
 
         let html = '';
-        html += `<div sytle='height:${h}px'>`;
+        html += `<div style='height:${h}px'>`;
         html += `<canvas id="graph${this.g_id}" height="${h}px" style='touch-action:pan-y'></canvas>`;
         html += `<button id='bc-${this.g_id}' style="position:absolute;right:20px;margin-top:${-h+5}px;color:var(--primary-text-color);background-color:${this.pconfig.closeButtonColor};border:0px solid black;">×</button>`;
         if( type == 'bar' && !this.ui.hideInterval ) 
@@ -3135,10 +3139,10 @@ class HistoryCardState {
     {
         const testEntityExclusionList = function(entity, excludes) { for( let i of excludes ) if( i.test(entity) ) return true; return false; };
 
-        for( let i = 0; i < graphs.length; i++ ) {
-            if( !graphs[i].entities ) continue;
-            let l = { ...graphs[i], 'entities' : [] };
-            for( let e of graphs[i].entities ) {
+        for( let graph of graphs ) {
+            if( !graph.entities ) continue;
+            let l = { ...graph, 'entities' : [] };
+            for( let e of graph.entities ) {
                 if( e.entity.indexOf('*') >= 0 ) {
                     const regexExcludes = this.buildEntityExclusionList(e.exclude);
                     const regex = this.matchWildcardPattern(e.entity);
