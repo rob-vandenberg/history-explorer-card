@@ -7,7 +7,7 @@ import "../deps/FileSaver.js"
 
 import { vertline_plugin } from "./history-chart-vline.js";
 import { HistoryCSVExporter, StatisticsCSVExporter } from "./history-csv-exporter.js";
-import { stateColors, stateColorsDark, parseColor, parseColorRange } from "./history-default-colors.js";
+import { stateColors, stateColorsDark, defaultColors, parseColor, parseColorRange } from "./history-default-colors.js";
 import { setLanguage, i18n } from "./languages.js";
 import "./history-info-panel.js"
 
