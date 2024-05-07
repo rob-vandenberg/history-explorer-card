@@ -8,7 +8,8 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "build": "webpack --config webpack.config.js"
+    "build": "webpack --config webpack.config.js",
+    "postversion": "sed -i \"s/^const Version = '[^']*';/const Version = '$npm_package_version';/\" src/history-explorer-card.js && yarn build && git add history-explorer-card.js src/history-explorer-card.js"
   },
   "devDependencies": {
     "webpack": "^5.91.0",
