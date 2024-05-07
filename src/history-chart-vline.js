@@ -3,6 +3,8 @@
 // Chartjs vertical line plugin
 // --------------------------------------------------------------------------------------
 
+import {isMobile} from "./history-explorer-card";
+
 export const vertline_plugin = {
 
     id: 'vertline',

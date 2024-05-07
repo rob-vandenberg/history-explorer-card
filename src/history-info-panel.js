@@ -1,5 +1,6 @@
 
 import { defaultGood, defaultInactiveLight, defaultInactiveDark, stateColors, stateColorsDark, parseColor } from "./history-default-colors";
+import { infoPanelEnabled, isMobile, HistoryCardState } from "./history-explorer-card";
 
 // --------------------------------------------------------------------------------------
 // Clone of lit html(), don't want to pull in the entire framework

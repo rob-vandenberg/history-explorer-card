@@ -16,7 +16,7 @@ var moment = window.HXLocal_moment;
 
 const Version = '1.0.53';
 
-var isMobile = ( navigator.appVersion.indexOf("Mobi") > -1 ) || ( navigator.userAgent.indexOf("HomeAssistant") > -1 );
+export const isMobile = ( navigator.appVersion.indexOf("Mobi") > -1 ) || ( navigator.userAgent.indexOf("HomeAssistant") > -1 );
 
 
 // --------------------------------------------------------------------------------------
@@ -46,14 +46,14 @@ var panstate = {};
 // HA entity history info panel enabled flag
 // --------------------------------------------------------------------------------------
 
-let infoPanelEnabled = !!JSON.parse(window.localStorage.getItem('history-explorer-info-panel'));
+export let infoPanelEnabled = !!JSON.parse(window.localStorage.getItem('history-explorer-info-panel'));
 
 
 // --------------------------------------------------------------------------------------
 // Internal card representation and instance state
 // --------------------------------------------------------------------------------------
 
-class HistoryCardState {
+export class HistoryCardState {
 
     constructor() 
     {
