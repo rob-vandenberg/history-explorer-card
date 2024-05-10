@@ -3,7 +3,7 @@
 // Default colors for line graphs
 // --------------------------------------------------------------------------------------
 
-var defaultColors = [
+export const defaultColors = [
 
     { 'color': '#3e95cd', 'fill': 'rgba(151,187,205,0.15)' },
     { 'color': '#95cd3e', 'fill': 'rgba(187,205,151,0.15)' },
@@ -23,7 +23,7 @@ var defaultColors = [
 // Predefined state colors for timeline history
 // --------------------------------------------------------------------------------------
 
-const defaultGood = '#66a61e';
+export const defaultGood = '#66a61e';
 const defaultBad = '#b5342d';
 const defaultMultiple = '#e5ad23';
 
@@ -32,10 +32,10 @@ const activeGreen = '#3ecd3e';
 const multipleRed = 'rgb(213, 142, 142)';
 const multipleGreen = 'rgb(142, 213, 142)';
 
-const defaultInactiveLight = '#dddddd';
-const defaultInactiveDark = '#383838';
+export const defaultInactiveLight = '#dddddd';
+export const defaultInactiveDark = '#383838';
 
-const stateColors = { 
+export const stateColors = {
 
     // Special states
 
@@ -124,7 +124,7 @@ const stateColors = {
 
 };
 
-const stateColorsDark = { 
+export const stateColorsDark = {
 
     'off' : defaultInactiveDark, 
 
@@ -132,14 +132,14 @@ const stateColorsDark = {
 
 };
 
-function parseColor(c)
+export function parseColor(c)
 {
     if( c && c.constructor == Object ) return c;
     while( c && c.startsWith('--') ) c = getComputedStyle(document.body).getPropertyValue(c);
     return c;
 }
 
-function parseColorRange(r, v)
+export function parseColorRange(r, v)
 {
     let c, c1, m, n;
 
@@ -151,4 +151,3 @@ function parseColorRange(r, v)
 
     return c ?? c1;
 }
-

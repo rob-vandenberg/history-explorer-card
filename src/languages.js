@@ -473,7 +473,7 @@ const lang_ru =
 // Language localization helper functions
 // --------------------------------------------------------------------------------------
 
-var languages = {
+const languages = {
     'en': lang_en,
     'fr': lang_fr,
     'de': lang_de,
@@ -486,16 +486,16 @@ var languages = {
     'ru': lang_ru
 };
 
-var language = 'en';
+let language = 'en';
 
-function setLanguage(l)
+export function setLanguage(l)
 {
     language = 'en';
     let lang = l.replace('-', '_').split('_');
     if( lang && lang.length > 0 && languages[lang[0]] ) language = lang[0];
 }
 
-function i18n(t, a0)
+export function i18n(t, a0)
 {
     let v = t.split('.').reduce((o,i) => o[i], languages[language]);
     if( v === undefined ) 
