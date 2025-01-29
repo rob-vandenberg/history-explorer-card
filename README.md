@@ -10,7 +10,7 @@ This is a custom history card for Home Assistant. This card offers a highly inte
 ![history-panel-sample](https://user-images.githubusercontent.com/60828821/147441073-5fbdeb2e-281a-4312-84f1-1ce5c835fc3d.png)
 
 - [Usage](#usage)
-  - [Overriding the HA more info history](#ooverriding-the-ha-more-info-history)
+  - [Overriding the HA more info history](#overriding-the-ha-more-info-history)
 - [Install and configuration](#install-and-configuration)
   - [HACS](#hacs)
   - [Manual install](#manual-install)
