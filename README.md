@@ -9,9 +9,48 @@ This is a custom history card for Home Assistant. This card offers a highly inte
 
 ![history-panel-sample](https://user-images.githubusercontent.com/60828821/147441073-5fbdeb2e-281a-4312-84f1-1ce5c835fc3d.png)
 
+- [Usage](#usage)
+  - [Overriding the HA more info history](#overriding-the-ha-more-info-history)
+- [Install and configuration](#install-and-configuration)
+  - [HACS](#hacs)
+  - [Manual install](#manual-install)
+  - [Full configuration reference](#full-configuration-reference)
+  - [Interactive configuration](#interactive-configuration)
+  - [Default view and time ranges](#default-view-and-time-ranges)
+  - [Auto refresh](#auto-refresh)
+  - [Grouping multiple entities into a single graph](#grouping-multiple-entities-into-a-single-graph)
+  - [Legend / entity labels](#legend--entity-labels)
+  - [Line interpolation modes](#line-interpolation-modes)
+  - [Y axis scaling](#y-axis-scaling)
+  - [Rounding](#rounding)
+  - [Line graphs and unavailable data](#line-graphs-and-unavailable-data)
+  - [Showing current sensor values](#showing-current-sensor-values)
+  - [Data decimation](#data-decimation)
+  - [Displaying individual samples](#displaying-individual-samples)
+  - [Bar graphs for total increasing entities](#bar-graphs-for-total-increasing-entities)
+    - [Color ranges](#color-ranges)
+    - [Net metering](#net-metering)
+  - [Timeline charts](#timeline-charts)
+    - [Customizing state colors](#customizing-state-colors)
+  - [Compass arrow graphs](#compass-arrow-graphs)
+  - [Customizing dynamically added graphs](#customizing-dynamically-added-graphs)
+  - [Long term statistics](#long-term-statistics)
+  - [Custom data processing functions](#custom-data-processing-functions)
+  - [Exporting data as CSV](#exporting-data-as-csv)
+  - [Configuring the UI](#configuring-the-ui)
+    - [Header text](#header-text)
+    - [Dark mode](#dark-mode)
+    - [Customizing the color of UI elements](#customizing-the-color-of-ui-elements)
+    - [Changing the UI layout](#changing-the-ui-layout)
+    - [Configuring the tooltip popup](#configuring-the-tooltip-popup)
+  - [Changing the horizontal time tick density](#changing-the-horizontal-time-tick-density)
+  - [Multiple cards](#multiple-cards)
+  - [YAML configuration for preconfigured graphs](#yaml-configuration-for-preconfigured-graphs)
+  - [Running as a panel in the sidebar](#running-as-a-panel-in-the-sidebar)
+
 ## Usage
 
-The history explorer card can be configured interactively through the UI or manually through YAML. The card can contain one or multiple charts, every chart can display the history of one or multiple entities. Currently the card supports line charts for numerical entities and timeline charts for non-numerical ones. The order the charts are displayed in the history, as well as the colors used for charts and timeline states are all fully configurable. 
+The history explorer card can be configured interactively through the UI or manually through YAML. The card can contain one or multiple charts, every chart can display the history of one or multiple entities. Currently the card supports line charts for numerical entities and timeline charts for non-numerical ones. The order the charts are displayed in the history, as well as the colors used for charts and timeline states are all fully configurable.
 
 https://user-images.githubusercontent.com/60828821/147440026-13a5ba52-dc43-4ff7-a944-9c2784e4a2f7.mp4
 
@@ -117,7 +156,7 @@ defaultTimeOffset: 1O       # Show the entire current month, starting at the 1st
 
 ### Auto refresh
 
-By default the card will not refresh on its own when sensor values change. It can be manually refreshed by reloading the page. If you would like your card to automatically reflect changing values on the fly, two strategies can be enabled. Both can be combined if needed. 
+By default the card will not refresh on its own when sensor values change. It can be manually refreshed by reloading the page. If you would like your card to automatically reflect changing values on the fly, two strategies can be enabled. Both can be combined if needed.
 
 Automatic refresh will monitor the entities that are displayed in your graphs for changes and refresh the graphs as needed. This strategy will usually cover the most common use cases and is recommended if you have just a few entities display in your history explorer card and if these entities don't change too often.
 ```yaml
@@ -233,7 +272,7 @@ showCurrentValues: true
 
 ### Data decimation
 
-The card will automatically reduce the data shown in the charts and remove details that would not be visible or useful at a given time range. For example, if you view a per-hour history, nothing will be removed and you will be able to explore the raw data, point by point. If you view an entire week at once, there's no need to show data that changed every few seconds, you couldn't even see it. The card will simplify the curves and make the experience a lot faster that way. 
+The card will automatically reduce the data shown in the charts and remove details that would not be visible or useful at a given time range. For example, if you view a per-hour history, nothing will be removed and you will be able to explore the raw data, point by point. If you view an entire week at once, there's no need to show data that changed every few seconds, you couldn't even see it. The card will simplify the curves and make the experience a lot faster that way.
 
 This feature can be turned off in the options if you want, either globally or by entity. Two different decimation algorithms are available. By default, a fast approximate one is used, offering highest rendering performance and a relatively good approximation of the graph shape at lower zoom levels. Optionally, an accurate decimation mode can be enabled. It offers accurate representation of local minima and maxima, at all zoom ranges. But rendering will be slower. Decimation mode can be selected globally at the card level or per entity.
 
@@ -426,7 +465,7 @@ When you add a new line graph using the add entity dropdown, the graph will use 
 ```yaml
 type: custom:history-explorer-card
 entityOptions:
-  humidity:                 # Apply these settings to all humidity sensors 
+  humidity:                 # Apply these settings to all humidity sensors
     color: blue
     fill: rgba(0,0,255,0.2)
     ymin: 20
@@ -477,7 +516,7 @@ The (optional) mode parameter controls how the statistics data is processed befo
 
 ### Custom data processing functions
 
-The card supports user defined Javascript expressions modifying the data right before display through the `process` option. This can be used to filter or shape data, apply non-linear scaling or transform data from one graph type to another. The supplied JS expression is provided with the original input `state` value (can be a string or a number, depending on the graph and data source). The expression must evaluate to the desired new state. Complex custom processing functions can degrade rendering performance. 
+The card supports user defined Javascript expressions modifying the data right before display through the `process` option. This can be used to filter or shape data, apply non-linear scaling or transform data from one graph type to another. The supplied JS expression is provided with the original input `state` value (can be a string or a number, depending on the graph and data source). The expression must evaluate to the desired new state. Complex custom processing functions can degrade rendering performance.
 
 Custom processing functions works for dyanmically added entities, manually defined YAML graphs and graphs in the more info panel.
 
@@ -495,7 +534,7 @@ Example of a spike rejection filter for dynamic temperature entities, removing i
 ```yaml
 type: custom:history-explorer-card
 entityOptions:
-  temperature:  
+  temperature:
     process: '( Math.abs(state) < 100 ) ? state : "unavailable"'
 ```
 
@@ -516,7 +555,7 @@ csv:
   numberLocale: 'en-US'     # Format numbers using the given locale. If this settings is not defined, the raw DB values will be written (no formatting).
 ```
 
-### Configuring the UI 
+### Configuring the UI
 
 #### Header text
 
@@ -680,7 +719,7 @@ Overriding the density will disable automatic density calculations depending on 
 
 ### Multiple cards
 
-You can have multiple history explorer cards on the same view or over several views and dashboards. Each card has its own configuration. For the cards to be able to manage their respective configurations, each card needs its own unique name. When adding the card over the UI, a random name is assigned by default. You can adjust the name if needed. If you add the card manually over YAML, you will have to provide your own unique name for each card. 
+You can have multiple history explorer cards on the same view or over several views and dashboards. Each card has its own configuration. For the cards to be able to manage their respective configurations, each card needs its own unique name. When adding the card over the UI, a random name is assigned by default. You can adjust the name if needed. If you add the card manually over YAML, you will have to provide your own unique name for each card.
 
 If you only use a single history explorer card on your Lovelace, then the name is optional.
 
