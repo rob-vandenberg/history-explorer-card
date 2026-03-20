@@ -2748,7 +2748,13 @@ export class HistoryCardState {
 
             // Set auto refresh interval, if any
             if( this.pconfig.refreshInterval )
-                setInterval(this.refresh.bind(this), this.pconfig.refreshInterval * 1000);
+// FIX: View window not advancing on interval-based refreshes because refresh.interval called refresh() instead of updateHistoryAutoRefresh()
+// AUTHOR: Rob Vandenberg
+// OLD CODE:
+//              setInterval(this.refresh.bind(this), this.pconfig.refreshInterval * 1000);
+// NEW CODE:
+				setInterval(this.updateHistoryAutoRefresh.bind(this), this.pconfig.refreshInterval * 1000);
+// END OF FIX
 
         }
     }
