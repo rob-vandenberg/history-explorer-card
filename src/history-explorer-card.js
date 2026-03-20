@@ -613,8 +613,15 @@ export class HistoryCardState {
             stepSizes.push({ '1': '10m', '2': '20m', '3': '30m', '4': '1h', '5': '1h', '6': '1h', '7': '1h', '8': '1h', '9': '1h', '10': '2h', '11': '2h', '12': '2h', '24': '4h', '48': '8h', '72': '12h', '96': '1d', '120': '1d', '144': '1d', '168': '2d', '336': '3d', '504': '4d', '720': '7d', '2184': '1o', '4368': '1o', '8760': '1o' });
             stepSizes.push({ '1': '20m', '2': '30m', '3': '1h', '4': '2h', '5': '2h', '6': '2h', '7': '2h', '8': '2h', '9': '2h', '10': '4h', '11': '4h', '12': '4h', '24': '6h', '48': '12h', '72': '1d', '96': '2d', '120': '2d', '144': '2d', '168': '4d', '336': '7d', '504': '7d', '720': '14d', '2184': '1o', '4368': '1o', '8760': '1o' });
 
-            this.activeRange.tickStepSize = stepSizes[tdensity][range].slice(0, -1);
-            switch( stepSizes[tdensity][range].slice(-1)[0] ) {
+// FIX - part 1 of 2: Allow any timeRange value. Removes restriction to predefined ranges only.
+// AUTHOR: Rob Vandenberg
+// OLD CODE:
+//          this.activeRange.tickStepSize = stepSizes[tdensity][range].slice(0, -1);
+//          switch( stepSizes[tdensity][range].slice(-1)[0] ) {
+// NEW CODE:
+            this.activeRange.tickStepSize = (stepSizes[tdensity][range] ?? stepSizes[tdensity][24]).slice(0, -1);
+            switch( (stepSizes[tdensity][range] ?? stepSizes[tdensity][24]).slice(-1)[0] ) {
+// END OF FIX - part 1 of 2		
                 case 'm': this.activeRange.tickStepUnit = 'minute'; break;
                 case 'h': this.activeRange.tickStepUnit = 'hour'; break;
                 case 'd': this.activeRange.tickStepUnit = 'day';  break;
@@ -655,7 +662,14 @@ export class HistoryCardState {
 
     validateRange(range, hidden = false)
     {
-        if( hidden && range < 12 && range > 0 ) return range;
+// FIX - part 2 of 2: Allow any timeRange value. Removes restriction to predefined ranges only.
+// AUTHOR: Rob Vandenberg
+// OLD CODE:
+//		if( hidden && range < 12 && range > 0 ) return range;
+// NEW CODE:
+		if( hidden && range > 0 ) return range;
+// END OF FIX - part 2 of 2		
+		
         let i = ranges.findIndex(e => e >= range);
         if( i < ranges.length-1 && (i < 0 || ranges[i] != range) ) i++;
         return ranges[i];

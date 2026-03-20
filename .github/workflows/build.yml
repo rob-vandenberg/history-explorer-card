@@ -1,0 +1,27 @@
+name: Build
+
+on:
+  push:
+    paths:
+      - 'src/history-explorer-card.js'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build
+        run: yarn build
+
+      - name: Commit built file
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: 'history-explorer-card.js'
+          message: "Auto-build minified JS from source"
