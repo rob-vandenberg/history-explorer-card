@@ -1,0 +1,22 @@
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Folders
+backup/
+artwork/
+screenshot/
+chrono-compass-card/
+github/
+
+# Files
+*.bat
+gitdelete.bat
+gitremove.bat
+gitrmdir.bat
+gitrmtag.bat
+gitrelease.bat
+release.bat
+release-notes.md
+set_version.py
+Suggestions.txt
