@@ -1,0 +1,37 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/history-explorer-card.js'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Debug
+        run: cat package.json && echo "---LENGTH---" && wc -c package.json
+
+      - name: Get version
+        id: version
+        run: echo "version=$(grep -o "Version = '[^']*'" src/history-explorer-card.js | sed "s/Version = '//;s/'//")" >> $GITHUB_OUTPUT
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build
+        run: yarn build
+
+      - name: Commit built file
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: '["dist/history-explorer-card.js"]'
+          message: "Auto-build minified JS from source v${{ steps.version.outputs.version }}"
