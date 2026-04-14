@@ -15,6 +15,7 @@ var Chart = window.HXLocal_Chart;
 var moment = window.HXLocal_moment;
 
 // ─── Version ──────────────────────────────────────────────────────────────────
+
 const Version = '1.0.57';
 // ─── Version History ──────────────────────────────────────────────────────────
 // v1.0.57: Add resolveCssVar() — resolves CSS var(--...) strings in all user-supplied color config fields before passing to parseColor()
