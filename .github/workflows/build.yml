@@ -17,9 +17,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Debug
-        run: cat package.json && echo "---LENGTH---" && wc -c package.json
-
       - name: Get version
         id: version
         run: echo "version=$(grep -o "Version = '[^']*'" src/history-explorer-card.js | sed "s/Version = '//;s/'//")" >> $GITHUB_OUTPUT
