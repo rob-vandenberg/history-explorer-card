@@ -14,8 +14,10 @@ import "./history-info-panel.js"
 var Chart = window.HXLocal_Chart;
 var moment = window.HXLocal_moment;
 
-const Version = '1.0.58';
+const Version = '1.0.59';
+
 // ─── Version History ──────────────────────────────────────────────────────────
+// v1.0.59: Proper var(--...) CSS variable support — enhanced parseColor() in history-default-colors.js to resolve var() and -- prefixed strings natively using the card element
 // v1.0.58: Fix resolveCssVar() — pass card element to getComputedStyle() so HA theme CSS variables resolve correctly within the shadow DOM
 // v1.0.57: Add resolveCssVar() — resolves CSS var(--...) strings in all user-supplied color config fields before passing to parseColor()
 // v1.0.56: Fix view window not advancing on interval-based refreshes — createContent() now calls updateHistoryAutoRefresh() instead of refresh()
@@ -23,20 +25,6 @@ const Version = '1.0.58';
 // v1.0.54: Fix auto-refresh view window not advancing — setInterval now calls updateHistoryAutoRefresh() instead of refresh()
 // v1.0.53: Fix defaultTimeRange restriction — allow any numeric timeRange value, not just predefined ranges
 // v1.0.52: Base: SpangleLabs/history-explorer-card v1.0.52 (fork of archived alexarch21/history-explorer-card)
-
-// ─── CSS variable resolver ────────────────────────────────────────────────────
-// Resolves "var(--some-variable)" strings to their computed color values before
-// handing them off to parseColor(). Without this, charting libraries receive a
-// literal "var(--...)" string and render it as black (unrecognized color).
-
-function resolveCssVar(color, element)
-{
-    if( typeof color !== 'string' ) return color;
-    const m = color.trim().match(/^var\(\s*(--[\w-]+)\s*\)$/);
-    if( !m ) return color;
-    const el = element || document.documentElement;
-    return getComputedStyle(el).getPropertyValue(m[1]).trim() || color;
-}
 
 export const isMobile = ( navigator.appVersion.indexOf("Mobi") > -1 ) || ( navigator.userAgent.indexOf("HomeAssistant") > -1 );
 
@@ -2462,8 +2450,8 @@ export class HistoryCardState {
         for( let d of entities ) {
             datasets.push({
                 "name": ( d.name === undefined ) ? this._hass.states[d.entity]?.attributes?.friendly_name : d.name,
-                "bColor": parseColor(resolveCssVar(d.color, this._this)),
-                "fillColor": parseColor(resolveCssVar(d.fill, this._this)), 
+                "bColor": parseColor(d.color, this._this),
+                "fillColor": parseColor(d.fill, this._this), 
                 "dashMode": d.dashMode,
                 "mode": d.lineMode || this.pconfig.defaultLineMode, 
                 "width": d.width || this.pconfig.defaultLineWidth,
@@ -2702,9 +2690,16 @@ export class HistoryCardState {
                 if( this._this.config.uimode === 'light' ) this.ui.darkMode = false;
             }
 
-            this.pconfig.graphLabelColor = parseColor(resolveCssVar(this._this.config.uiColors?.labels ?? (this.ui.darkMode ? '#9b9b9b' : '#333'), this._this));
-            this.pconfig.graphGridColor  = parseColor(resolveCssVar(this._this.config.uiColors?.gridlines ?? (this.ui.darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)"), this._this));
-            this.pconfig.cursorLineColor = parseColor(resolveCssVar(this._this.config.uiColors?.cursorline ?? this.pconfig.graphGridColor, this._this));
+            this.pconfig.graphLabelColor = parseColor(this._this.config.uiColors?.labels ?? (this.ui.darkMode ? '#9b9b9b' : '#333'), this._this);
+            this.pconfig.graphGridColor  = parseColor(this._this.config.uiColors?.gridlines ?? (this.ui.darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)"), this._this);
+            this.pconfig.cursorLineColor = parseColor(this._this.config.uiColors?.cursorline ?? this.pconfig.graphGridColor, this._this);
+
+            this.pconfig.customStateColors = {};
+            if( this.pconfig.rawStateColors ) {
+                for( let i in this.pconfig.rawStateColors ) {
+                    this.pconfig.customStateColors[i] = parseColor(this.pconfig.rawStateColors[i], this._this);
+                }
+            }
 
             this.pconfig.nextDefaultColor = 0;
 
@@ -3318,12 +3313,7 @@ class HistoryExplorerCard extends HTMLElement
         this.instance.firstDynamicId = this.instance.g_id;
 
         this.instance.pconfig.customStateColors = {};
-
-        if( config.stateColors ) {
-            for( let i in config.stateColors ) {
-                this.instance.pconfig.customStateColors[i] = parseColor(resolveCssVar(config.stateColors[i], this));
-            }
-        }
+        this.instance.pconfig.rawStateColors = config.stateColors;
 
         this.instance.pconfig.entityOptions = config.entityOptions;
 
@@ -3373,7 +3363,7 @@ class HistoryExplorerCard extends HTMLElement
         this.instance.statistics.period =              config.statistics?.period ?? 'hour';
         this.instance.statistics.force =               config.statistics?.force ?? undefined;
 
-        this.instance.pconfig.closeButtonColor = parseColor(resolveCssVar(config.uiColors?.closeButton ?? '#0000001f', this));
+        this.instance.pconfig.closeButtonColor = parseColor(config.uiColors?.closeButton ?? '#0000001f');
 
         this.instance.pconfig.infoPanelConfig = config.infoPanel;
 
@@ -3384,7 +3374,7 @@ class HistoryExplorerCard extends HTMLElement
         this.instance.entitiesPopulated = false;
 
         const header = config.header || "History explorer";
-        const bgcol = parseColor(resolveCssVar(config.uiColors?.buttons ?? getComputedStyle(document.body).getPropertyValue('--primary-color') + '1f', this));
+        const bgcol = parseColor(config.uiColors?.buttons ?? getComputedStyle(document.body).getPropertyValue('--primary-color') + '1f');
 
         const bitmask = { 'hide': 0, 'top': 1, 'bottom': 2, 'both': 3 };
         const tools = bitmask[config.uiLayout?.toolbar] ?? 1;
