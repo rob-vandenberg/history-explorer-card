@@ -4,15 +4,41 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'src/history-explorer-card.js'
   workflow_dispatch:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      triggered: ${{ steps.check.outputs.triggered }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check build trigger
+        id: check
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "Manual trigger — proceeding."
+            echo "triggered=true" >> $GITHUB_OUTPUT
+          elif [ ! -f .build ]; then
+            echo "No .build file — cancelling."
+            curl -s -X POST \
+              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Accept: application/vnd.github.v3+json" \
+              https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/cancel
+            exit 0
+          else
+            echo "triggered=true" >> $GITHUB_OUTPUT
+            echo ".build found — proceeding."
+          fi
+
   build:
+    needs: check
+    if: needs.check.outputs.triggered == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -32,3 +58,8 @@ jobs:
         with:
           add: '["dist/history-explorer-card.js"]'
           message: "Auto-build minified JS from source v${{ steps.version.outputs.version }}"
+
+      - name: HACS Action
+        uses: "hacs/action@main"
+        with:
+          category: "plugin"
