@@ -1,4 +1,4 @@
-
+   
 import "../deps/moment.js";
 import "../deps/Chart.js";
 import "../deps/timeline.js";
@@ -10,13 +10,14 @@ import { HistoryCSVExporter, StatisticsCSVExporter } from "./history-csv-exporte
 import { stateColors, stateColorsDark, defaultColors, parseColor, parseColorRange } from "./history-default-colors.js";
 import { setLanguage, i18n } from "./languages.js";
 import "./history-info-panel.js"
-
+    
 var Chart = window.HXLocal_Chart;
 var moment = window.HXLocal_moment;
-
-const Version = '1.0.59';
-
+     
+const Version = '1.0.60';
+        
 // ─── Version History ──────────────────────────────────────────────────────────
+// v1.0.60: Fix stateColors not resolving in editor preview — store rawStateColors in setConfig() so it is available before InitWithConfig() runs
 // v1.0.59: Proper var(--...) CSS variable support — enhanced parseColor() in history-default-colors.js to resolve var() and -- prefixed strings natively using the card element
 // v1.0.58: Fix resolveCssVar() — pass card element to getComputedStyle() so HA theme CSS variables resolve correctly within the shadow DOM
 // v1.0.57: Add resolveCssVar() — resolves CSS var(--...) strings in all user-supplied color config fields before passing to parseColor()
@@ -27,8 +28,8 @@ const Version = '1.0.59';
 // v1.0.52: Base: SpangleLabs/history-explorer-card v1.0.52 (fork of archived alexarch21/history-explorer-card)
 
 export const isMobile = ( navigator.appVersion.indexOf("Mobi") > -1 ) || ( navigator.userAgent.indexOf("HomeAssistant") > -1 );
-
-
+   
+   
 // --------------------------------------------------------------------------------------
 // Valid time ranges in hours
 // --------------------------------------------------------------------------------------
@@ -3292,6 +3293,7 @@ class HistoryExplorerCard extends HTMLElement
     {
         this.config = config;
         this.configSet = true;
+        this.rawStateColors = config.stateColors;
     }
 
     InitWithConfig(hass)
@@ -3313,7 +3315,7 @@ class HistoryExplorerCard extends HTMLElement
         this.instance.firstDynamicId = this.instance.g_id;
 
         this.instance.pconfig.customStateColors = {};
-        this.instance.pconfig.rawStateColors = config.stateColors;
+        this.instance.pconfig.rawStateColors = this.rawStateColors;
 
         this.instance.pconfig.entityOptions = config.entityOptions;
 
