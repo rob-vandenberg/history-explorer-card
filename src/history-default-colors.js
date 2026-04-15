@@ -132,10 +132,24 @@ export const stateColorsDark = {
 
 };
 
-export function parseColor(c)
+export function parseColor(c, element)
 {
     if( c && c.constructor == Object ) return c;
-    while( c && c.startsWith('--') ) c = getComputedStyle(document.body).getPropertyValue(c);
+    const el = element || document.documentElement;
+    while( c ) {
+        const m = typeof c === 'string' && c.trim().match(/^var\(\s*(--[\w-]+)\s*\)$/);
+        if( m ) {
+            c = getComputedStyle(el).getPropertyValue(m[1]).trim()
+             || getComputedStyle(document.documentElement).getPropertyValue(m[1]).trim()
+             || getComputedStyle(document.body).getPropertyValue(m[1]).trim();
+        } else if( typeof c === 'string' && c.startsWith('--') ) {
+            c = getComputedStyle(el).getPropertyValue(c).trim()
+             || getComputedStyle(document.documentElement).getPropertyValue(c).trim()
+             || getComputedStyle(document.body).getPropertyValue(c).trim();
+        } else {
+            break;
+        }
+    }
     return c;
 }
 
