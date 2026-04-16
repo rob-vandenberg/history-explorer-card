@@ -4,7 +4,7 @@ Changelog for the HA History Explorer Card.
 (Using format and definitions from https://keepachangelog.com/en/1.0.0/)
 
 
-## [v1.0.60] - 2026-04-16
+## [v1.0.61] - 2026-04-16
 ### Changed
 - Add native CSS `var(--)` variable support throughout the card — enhanced `parseColor()` in `history-default-colors.js` to resolve CSS custom properties using the card element, enabling theme colors to be used in `stateColors`, `color`, `fill` and `uiColors` config fields
 

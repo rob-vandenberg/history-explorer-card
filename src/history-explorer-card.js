@@ -14,9 +14,10 @@ import "./history-info-panel.js"
 var Chart = window.HXLocal_Chart;
 var moment = window.HXLocal_moment;
      
-const Version = '1.0.60';
+const Version = '1.0.61';
         
 // ─── Version History ──────────────────────────────────────────────────────────
+// v1.0.61: Fix stateColors showing default colors in editor — store raw unresolved values in customStateColors, resolve via parseColor() at call time in getStateColor()
 // v1.0.60: Fix stateColors not resolving in editor preview — store rawStateColors in setConfig() so it is available before InitWithConfig() runs
 // v1.0.59: Proper var(--...) CSS variable support — enhanced parseColor() in history-default-colors.js to resolve var() and -- prefixed strings natively using the card element
 // v1.0.58: Fix resolveCssVar() — pass card element to getComputedStyle() so HA theme CSS variables resolve correctly within the shadow DOM
@@ -283,7 +284,13 @@ export class HistoryCardState {
                c = this.colorMap.get(value);
         }
 
-        return c;
+// FIX: Resolve CSS variables at call time using live card element, so editor preview resolves correctly
+// AUTHOR: Rob Vandenberg
+// OLD CODE:
+//        return c;
+// NEW CODE:
+        return parseColor(c, this._this);
+// END OF FIX
     }
 
 
@@ -2695,12 +2702,23 @@ export class HistoryCardState {
             this.pconfig.graphGridColor  = parseColor(this._this.config.uiColors?.gridlines ?? (this.ui.darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)"), this._this);
             this.pconfig.cursorLineColor = parseColor(this._this.config.uiColors?.cursorline ?? this.pconfig.graphGridColor, this._this);
 
+// FIX: Store raw unresolved stateColor values — resolution deferred to getStateColor() call time via parseColor()
+// AUTHOR: Rob Vandenberg
+// OLD CODE:
+//            this.pconfig.customStateColors = {};
+//            if( this.pconfig.rawStateColors ) {
+//                for( let i in this.pconfig.rawStateColors ) {
+//                    this.pconfig.customStateColors[i] = parseColor(this.pconfig.rawStateColors[i], this._this);
+//                }
+//            }
+// NEW CODE:
             this.pconfig.customStateColors = {};
             if( this.pconfig.rawStateColors ) {
                 for( let i in this.pconfig.rawStateColors ) {
-                    this.pconfig.customStateColors[i] = parseColor(this.pconfig.rawStateColors[i], this._this);
+                    this.pconfig.customStateColors[i] = this.pconfig.rawStateColors[i];
                 }
             }
+// END OF FIX
 
             this.pconfig.nextDefaultColor = 0;
 
