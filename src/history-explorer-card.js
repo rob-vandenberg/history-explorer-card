@@ -14,11 +14,11 @@ import "./history-info-panel.js"
 var Chart = window.HXLocal_Chart;
 var moment = window.HXLocal_moment;
      
-const Version = '1.0.61';
+const Version = '1.0.62';
         
 // ─── Version History ──────────────────────────────────────────────────────────
+// v1.0.62: Resolve CSS variables from hass.themes directly — fixes var() colors in editor where DOM theme inheritance is unavailable
 // v1.0.61: Fix stateColors showing default colors in editor — store raw unresolved values in customStateColors, resolve via parseColor() at call time in getStateColor()
-// v1.0.60: Fix stateColors not resolving in editor preview — store rawStateColors in setConfig() so it is available before InitWithConfig() runs
 // v1.0.59: Proper var(--...) CSS variable support — enhanced parseColor() in history-default-colors.js to resolve var() and -- prefixed strings natively using the card element
 // v1.0.58: Fix resolveCssVar() — pass card element to getComputedStyle() so HA theme CSS variables resolve correctly within the shadow DOM
 // v1.0.57: Add resolveCssVar() — resolves CSS var(--...) strings in all user-supplied color config fields before passing to parseColor()
@@ -289,7 +289,7 @@ export class HistoryCardState {
 // OLD CODE:
 //        return c;
 // NEW CODE:
-        return parseColor(c, this._this);
+        return parseColor(c, this._this, this._hass);
 // END OF FIX
     }
 
@@ -2458,8 +2458,8 @@ export class HistoryCardState {
         for( let d of entities ) {
             datasets.push({
                 "name": ( d.name === undefined ) ? this._hass.states[d.entity]?.attributes?.friendly_name : d.name,
-                "bColor": parseColor(d.color, this._this),
-                "fillColor": parseColor(d.fill, this._this), 
+                "bColor": parseColor(d.color, this._this, this._hass),
+                "fillColor": parseColor(d.fill, this._this, this._hass), 
                 "dashMode": d.dashMode,
                 "mode": d.lineMode || this.pconfig.defaultLineMode, 
                 "width": d.width || this.pconfig.defaultLineWidth,
@@ -2698,9 +2698,9 @@ export class HistoryCardState {
                 if( this._this.config.uimode === 'light' ) this.ui.darkMode = false;
             }
 
-            this.pconfig.graphLabelColor = parseColor(this._this.config.uiColors?.labels ?? (this.ui.darkMode ? '#9b9b9b' : '#333'), this._this);
-            this.pconfig.graphGridColor  = parseColor(this._this.config.uiColors?.gridlines ?? (this.ui.darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)"), this._this);
-            this.pconfig.cursorLineColor = parseColor(this._this.config.uiColors?.cursorline ?? this.pconfig.graphGridColor, this._this);
+            this.pconfig.graphLabelColor = parseColor(this._this.config.uiColors?.labels ?? (this.ui.darkMode ? '#9b9b9b' : '#333'), this._this, this._hass);
+            this.pconfig.graphGridColor  = parseColor(this._this.config.uiColors?.gridlines ?? (this.ui.darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)"), this._this, this._hass);
+            this.pconfig.cursorLineColor = parseColor(this._this.config.uiColors?.cursorline ?? this.pconfig.graphGridColor, this._this, this._hass);
 
 // FIX: Store raw unresolved stateColor values — resolution deferred to getStateColor() call time via parseColor()
 // AUTHOR: Rob Vandenberg

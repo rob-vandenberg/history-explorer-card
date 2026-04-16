@@ -132,18 +132,22 @@ export const stateColorsDark = {
 
 };
 
-export function parseColor(c, element)
+export function parseColor(c, element, hass)
 {
     if( c && c.constructor == Object ) return c;
     const el = element || document.documentElement;
     while( c ) {
         const m = typeof c === 'string' && c.trim().match(/^var\(\s*(--[\w-]+)\s*\)$/);
         if( m ) {
-            c = getComputedStyle(el).getPropertyValue(m[1]).trim()
+            const varName = m[1].replace(/^--/, '');
+            c = resolveThemeVar(varName, hass)
+             || getComputedStyle(el).getPropertyValue(m[1]).trim()
              || getComputedStyle(document.documentElement).getPropertyValue(m[1]).trim()
              || getComputedStyle(document.body).getPropertyValue(m[1]).trim();
         } else if( typeof c === 'string' && c.startsWith('--') ) {
-            c = getComputedStyle(el).getPropertyValue(c).trim()
+            const varName = c.replace(/^--/, '');
+            c = resolveThemeVar(varName, hass)
+             || getComputedStyle(el).getPropertyValue(c).trim()
              || getComputedStyle(document.documentElement).getPropertyValue(c).trim()
              || getComputedStyle(document.body).getPropertyValue(c).trim();
         } else {
@@ -151,6 +155,18 @@ export function parseColor(c, element)
         }
     }
     return c;
+}
+
+function resolveThemeVar(varName, hass)
+{
+    if( !hass ) return '';
+    const themes = hass.themes?.themes;
+    if( !themes ) return '';
+    const themeName = hass.selectedTheme?.theme || hass.themes?.default_theme;
+    if( !themeName || themeName === 'default' ) return '';
+    const theme = themes[themeName];
+    if( !theme ) return '';
+    return theme[varName] || '';
 }
 
 export function parseColorRange(r, v)
