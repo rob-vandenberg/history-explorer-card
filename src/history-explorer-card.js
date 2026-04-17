@@ -14,7 +14,7 @@ import "./history-info-panel.js"
 var Chart = window.HXLocal_Chart;
 var moment = window.HXLocal_moment;
      
-const Version = '1.0.62';
+const Version = '1.0.63';
         
 // ─── Version History ──────────────────────────────────────────────────────────
 // v1.0.62: Resolve CSS variables from hass.themes directly — fixes var() colors in editor where DOM theme inheritance is unavailable
