@@ -14,10 +14,10 @@ import "./history-info-panel.js"
 var Chart = window.HXLocal_Chart;
 var moment = window.HXLocal_moment;
      
-const Version = '1.0.63';
+const Version = '1.0.64';
         
 // ─── Version History ──────────────────────────────────────────────────────────
-// v1.0.62: Resolve CSS variables from hass.themes directly — fixes var() colors in editor where DOM theme inheritance is unavailable
+// v1.0.64: Resolve CSS variables from hass.themes directly — fixes var() colors in editor where DOM theme inheritance is unavailable
 // v1.0.61: Fix stateColors showing default colors in editor — store raw unresolved values in customStateColors, resolve via parseColor() at call time in getStateColor()
 // v1.0.59: Proper var(--...) CSS variable support — enhanced parseColor() in history-default-colors.js to resolve var() and -- prefixed strings natively using the card element
 // v1.0.58: Fix resolveCssVar() — pass card element to getComputedStyle() so HA theme CSS variables resolve correctly within the shadow DOM
@@ -222,6 +222,74 @@ export class HistoryCardState {
         return defaultColors[i];
     }
 
+// FIX, Part 1 of 3: Trigger CSS variable resolution for state colors — return parseColor() instead of bare c, passing card element and hass so theme CSS variables resolve correctly.
+// AUTHOR: Rob Vandenberg
+// OLD CODE:
+    // getStateColor(domain, device_class, entity_id, value)
+    // {
+        // let c;
+
+        // if( value === undefined || value === null || value === '' ) value = 'unknown';
+
+        // // entity_id.state override
+        // if( entity_id ) {
+            // const v = entity_id + '.' + value;
+            // c = this.pconfig.customStateColors?.[v];
+            // if( !c ) c = this.pconfig.customStateColors?.[entity_id];
+        // }
+
+        // // device_class.state override
+        // if( !c && device_class ) {
+            // const v = device_class + '.' + value;
+            // c = this.pconfig.customStateColors?.[v];
+            // if( !c ) c = this.pconfig.customStateColors?.[device_class];
+        // }
+
+        // // domain.state override
+        // if( !c && domain ) {
+            // const v = domain + '.' + value;
+            // c = this.pconfig.customStateColors?.[v];
+            // if( !c ) c = this.pconfig.customStateColors?.[domain];
+        // }
+
+        // // global state override
+        // if( !c ) {
+            // c = this.pconfig.customStateColors?.[value];
+        // }
+
+        // // device_class.state defaults
+        // if( !c && device_class ) {
+            // const v = device_class + '.' + value;
+            // c = (( this.ui.darkMode && this.stateColorsDark[v] ) ? this.stateColorsDark[v] : this.stateColors[v]);
+        // }
+
+        // // domain.state defaults
+        // if( !c && domain ) {
+            // const v = domain + '.' + value;
+            // c = (( this.ui.darkMode && this.stateColorsDark[v] ) ? this.stateColorsDark[v] : this.stateColors[v]);
+        // }
+
+        // // global state defaults
+        // if( !c ) {
+            // c = (( this.ui.darkMode && this.stateColorsDark[value] ) ? this.stateColorsDark[value] : this.stateColors[value]);
+        // }
+
+        // // general fallback if state color is not defined anywhere, generate color from the MD5 hash of the state name
+        // if( !c ) {
+            // if( !this.colorMap.has(value) ) {
+                // const md = md5hx(value);
+                // const h = ((md[0] & 0x7FFFFFFF) * this.pconfig.colorSeed) % 359;
+                // const s = Math.ceil(45.0 + (30.0 * (((md[1] & 0x7FFFFFFF) % 255) / 255.0))) - (this.ui.darkMode ? 13 : 0);
+                // const l = Math.ceil(55.0 + (10.0 * (((md[1] & 0x7FFFFFFF) % 255) / 255.0))) - (this.ui.darkMode ? 5 : 0);
+                // c = 'hsl(' + h +',' + s + '%,' + l + '%)';
+                // this.colorMap.set(value, c);
+            // } else
+               // c = this.colorMap.get(value);
+        // }
+
+        // return c;
+    // }
+// NEW CODE:
     getStateColor(domain, device_class, entity_id, value)
     {
         let c;
@@ -284,14 +352,9 @@ export class HistoryCardState {
                c = this.colorMap.get(value);
         }
 
-// FIX: Resolve CSS variables at call time using live card element, so editor preview resolves correctly
-// AUTHOR: Rob Vandenberg
-// OLD CODE:
-//        return c;
-// NEW CODE:
         return parseColor(c, this._this, this._hass);
-// END OF FIX
     }
+// END OF FIX, Part 1 of 3
 
 
     // --------------------------------------------------------------------------------------
@@ -631,7 +694,7 @@ export class HistoryCardState {
             stepSizes.push({ '1': '10m', '2': '20m', '3': '30m', '4': '1h', '5': '1h', '6': '1h', '7': '1h', '8': '1h', '9': '1h', '10': '2h', '11': '2h', '12': '2h', '24': '4h', '48': '8h', '72': '12h', '96': '1d', '120': '1d', '144': '1d', '168': '2d', '336': '3d', '504': '4d', '720': '7d', '2184': '1o', '4368': '1o', '8760': '1o' });
             stepSizes.push({ '1': '20m', '2': '30m', '3': '1h', '4': '2h', '5': '2h', '6': '2h', '7': '2h', '8': '2h', '9': '2h', '10': '4h', '11': '4h', '12': '4h', '24': '6h', '48': '12h', '72': '1d', '96': '2d', '120': '2d', '144': '2d', '168': '4d', '336': '7d', '504': '7d', '720': '14d', '2184': '1o', '4368': '1o', '8760': '1o' });
 
-// FIX - part 1 of 2: Allow any timeRange value. Removes restriction to predefined ranges only.
+// FIX, Part 1 of 2: setStepSize() — allow any numeric timeRange value by falling back to 24h step sizes when the value is not in the predefined list.
 // AUTHOR: Rob Vandenberg
 // OLD CODE:
 //          this.activeRange.tickStepSize = stepSizes[tdensity][range].slice(0, -1);
@@ -639,7 +702,7 @@ export class HistoryCardState {
 // NEW CODE:
             this.activeRange.tickStepSize = (stepSizes[tdensity][range] ?? stepSizes[tdensity][24]).slice(0, -1);
             switch( (stepSizes[tdensity][range] ?? stepSizes[tdensity][24]).slice(-1)[0] ) {
-// END OF FIX - part 1 of 2		
+// END OF FIX, Part 1 of 2
                 case 'm': this.activeRange.tickStepUnit = 'minute'; break;
                 case 'h': this.activeRange.tickStepUnit = 'hour'; break;
                 case 'd': this.activeRange.tickStepUnit = 'day';  break;
@@ -680,13 +743,13 @@ export class HistoryCardState {
 
     validateRange(range, hidden = false)
     {
-// FIX - part 2 of 2: Allow any timeRange value. Removes restriction to predefined ranges only.
+// FIX, Part 2 of 2: validateRange() — allow any numeric timeRange value by falling back to the nearest valid range instead of restricting to the predefined list.
 // AUTHOR: Rob Vandenberg
 // OLD CODE:
 //		if( hidden && range < 12 && range > 0 ) return range;
 // NEW CODE:
 		if( hidden && range > 0 ) return range;
-// END OF FIX - part 2 of 2		
+// END OF FIX, Part 2 of 2
 		
         let i = ranges.findIndex(e => e >= range);
         if( i < ranges.length-1 && (i < 0 || ranges[i] != range) ) i++;
@@ -2458,8 +2521,15 @@ export class HistoryCardState {
         for( let d of entities ) {
             datasets.push({
                 "name": ( d.name === undefined ) ? this._hass.states[d.entity]?.attributes?.friendly_name : d.name,
+// FIX, Part 2 of 3: addGraphToCanvas() — pass card element and hass to parseColor() so CSS variable color strings in entity color/fill config are resolved correctly.
+// AUTHOR: Rob Vandenberg
+// OLD CODE:
+//                "bColor": parseColor(d.color),
+//                "fillColor": parseColor(d.fill),
+// NEW CODE:
                 "bColor": parseColor(d.color, this._this, this._hass),
-                "fillColor": parseColor(d.fill, this._this, this._hass), 
+                "fillColor": parseColor(d.fill, this._this, this._hass),
+// END OF FIX, Part 2 of 3
                 "dashMode": d.dashMode,
                 "mode": d.lineMode || this.pconfig.defaultLineMode, 
                 "width": d.width || this.pconfig.defaultLineWidth,
@@ -2698,19 +2768,27 @@ export class HistoryCardState {
                 if( this._this.config.uimode === 'light' ) this.ui.darkMode = false;
             }
 
+// FIX 1 OF 2: createContent() — pass card element and hass to parseColor() for UI color config fields so CSS variable color strings resolve correctly.
+// AUTHOR: Rob Vandenberg
+// OLD CODE:
+//          this.pconfig.graphLabelColor = parseColor(this._this.config.uiColors?.labels ?? (this.ui.darkMode ? '#9b9b9b' : '#333'));
+//          this.pconfig.graphGridColor  = parseColor(this._this.config.uiColors?.gridlines ?? (this.ui.darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)"));
+//          this.pconfig.cursorLineColor = parseColor(this._this.config.uiColors?.cursorline ?? this.pconfig.graphGridColor);
+// NEW CODE:
             this.pconfig.graphLabelColor = parseColor(this._this.config.uiColors?.labels ?? (this.ui.darkMode ? '#9b9b9b' : '#333'), this._this, this._hass);
             this.pconfig.graphGridColor  = parseColor(this._this.config.uiColors?.gridlines ?? (this.ui.darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)"), this._this, this._hass);
             this.pconfig.cursorLineColor = parseColor(this._this.config.uiColors?.cursorline ?? this.pconfig.graphGridColor, this._this, this._hass);
+// END OF FIX
 
-// FIX: Store raw unresolved stateColor values — resolution deferred to getStateColor() call time via parseColor()
+// FIX 2 OF 2: createContent() — store raw unresolved stateColor values instead of resolving immediately, so CSS variable resolution happens at render time in getStateColor() when this._this is guaranteed valid.
 // AUTHOR: Rob Vandenberg
 // OLD CODE:
-//            this.pconfig.customStateColors = {};
-//            if( this.pconfig.rawStateColors ) {
-//                for( let i in this.pconfig.rawStateColors ) {
-//                    this.pconfig.customStateColors[i] = parseColor(this.pconfig.rawStateColors[i], this._this);
-//                }
-//            }
+//          this.pconfig.customStateColors = {};
+//          if( this.pconfig.rawStateColors ) {
+//              for( let i in this.pconfig.rawStateColors ) {
+//                  this.pconfig.customStateColors[i] = parseColor(this.pconfig.rawStateColors[i], this._this);
+//              }
+//          }
 // NEW CODE:
             this.pconfig.customStateColors = {};
             if( this.pconfig.rawStateColors ) {
@@ -2784,7 +2862,7 @@ export class HistoryCardState {
 
             // Set auto refresh interval, if any
             if( this.pconfig.refreshInterval )
-// FIX: View window not advancing on interval-based refreshes because refresh.interval called refresh() instead of updateHistoryAutoRefresh()
+// FIX: createContent() — interval-based auto-refresh was calling refresh() which does not advance the view window; changed to updateHistoryAutoRefresh().
 // AUTHOR: Rob Vandenberg
 // OLD CODE:
 //              setInterval(this.refresh.bind(this), this.pconfig.refreshInterval * 1000);
@@ -3221,10 +3299,6 @@ export class HistoryCardState {
     }
 }
 
-window.HX_infoPanelEnabled = () => infoPanelEnabled;
-window.HX_setInfoPanelEnabled = (v) => { infoPanelEnabled = v; };
-window.HX_HistoryCardState = HistoryCardState;
-
 
 // --------------------------------------------------------------------------------------
 // Get time and date formating strings for a given locale
@@ -3311,7 +3385,11 @@ class HistoryExplorerCard extends HTMLElement
     {
         this.config = config;
         this.configSet = true;
+// FIX: setConfig() — store rawStateColors on the element so it is available before InitWithConfig() runs, enabling deferred CSS variable resolution in createContent().
+// AUTHOR: Rob Vandenberg
+// ADDED CODE:
         this.rawStateColors = config.stateColors;
+// END OF FIX
     }
 
     InitWithConfig(hass)
@@ -3332,8 +3410,19 @@ class HistoryExplorerCard extends HTMLElement
 
         this.instance.firstDynamicId = this.instance.g_id;
 
+// FIX: InitWithConfig() — replace immediate stateColor resolution: pass raw values to the card instance for resolution at render time.
+// AUTHOR: Rob Vandenberg
+// OLD CODE:
+//      this.instance.pconfig.customStateColors = {};
+//      if( config.stateColors ) {
+//          for( let i in config.stateColors ) {
+//              this.instance.pconfig.customStateColors[i] = parseColor(config.stateColors[i]);
+//          }
+//      }
+// NEW CODE:
         this.instance.pconfig.customStateColors = {};
         this.instance.pconfig.rawStateColors = this.rawStateColors;
+// END OF FIX
 
         this.instance.pconfig.entityOptions = config.entityOptions;
 

@@ -1,4 +1,6 @@
 
+const Version = '1.0.64';
+
 // --------------------------------------------------------------------------------------
 // Default colors for line graphs
 // --------------------------------------------------------------------------------------
@@ -132,6 +134,16 @@ export const stateColorsDark = {
 
 };
 
+// FIX: parseColor() — resolve CSS variable colors using the card element instead of document.body, so view-level theme variables are correctly inherited.
+// AUTHOR: Rob Vandenberg
+// OLD CODE:
+// export function parseColor(c)
+// {
+//    if( c && c.constructor == Object ) return c;
+//    while( c && c.startsWith('--') ) c = getComputedStyle(document.body).getPropertyValue(c);
+//    return c;
+// }
+// NEW CODE:
 export function parseColor(c, element, hass)
 {
     if( c && c.constructor == Object ) return c;
@@ -168,6 +180,7 @@ function resolveThemeVar(varName, hass)
     if( !theme ) return '';
     return theme[varName] || '';
 }
+// END OF FIX
 
 export function parseColorRange(r, v)
 {
