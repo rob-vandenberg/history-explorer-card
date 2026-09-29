@@ -20,3 +20,25 @@ release.bat
 release-notes.md
 set_version.py
 Suggestions.txt
+
+# Never push these (cleanup 2026-09-29)
+*.zip
+*.psd
+*.ai
+*.log
+__pycache__/
+*.pyc
+
+# Removed from repo in cleanup 2026-09-29 (unused artwork, old files)
+/build.sh
+/deps/Chart.js.url
+/deps/FileSaver.js.url
+/deps/md5.js.url
+/deps/moment.js.url
+/deps/timeline.js.url
+/history-explorer-card-dev.js
+/history-explorer-card-todo.js
+/history-explorer-card.js
+/src/index.js
+/webpack.config.js
+/yarn.lock
